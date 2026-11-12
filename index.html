@@ -1,315 +1,457 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A fictional corrections intelligence case analysis training prototype.">
-  <title>Casework | Intelligence Analysis Workbench</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10263d">
+  <meta name="description" content="Original fictional corrections intelligence case-review training application.">
+  <title>Criminal Intelligence Analysis Lab | Case CR-2026-014</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark">CI</div>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <div class="identity">
+        <div class="identity-square">CI</div>
         <div>
-          <strong>CASEWORK</strong>
-          <small>Analysis workbench</small>
+          <strong>CRIMINAL INTELLIGENCE ANALYSIS LAB</strong>
+          <small>Corrections case-training and analytic practice workspace</small>
         </div>
       </div>
-
-      <div class="side-label">WORKSPACE</div>
-
-      <nav class="nav" aria-label="Main navigation">
-        <button class="nav-link active" data-page="overview">
-          <span>▦</span> Overview
-        </button>
-        <button class="nav-link" data-page="records">
-          <span>▤</span> Incident records
-        </button>
-        <button class="nav-link" data-page="timeline">
-          <span>◷</span> Timeline
-        </button>
-        <button class="nav-link" data-page="notebook">
-          <span>▧</span> Analyst notebook
-        </button>
-      </nav>
-
-      <div class="side-bottom">
-        <div class="status-dot"></div>
-        <strong>TRAINING ENVIRONMENT</strong>
-        <p>Fictional case data only. Not an agency system.</p>
+      <div class="identity-right">
+        <strong>TRAINING INSTANCE</strong>
+        <span>CMPA CAPSTONE / CASE CR-2026-014</span>
       </div>
-    </aside>
-
-    <div class="workspace">
-      <header class="topbar">
-        <div class="crumb">
-          CASEWORK <span>/</span>
-          <span id="breadcrumb">Overview</span>
-        </div>
-        <div class="top-right">
-          <span class="case-tag">CASE CW-026</span>
-          <span class="avatar" aria-hidden="true">AN</span>
-        </div>
-      </header>
-
-      <main>
-        <!-- OVERVIEW -->
-        <section class="page active" id="overview">
-          <div class="page-heading">
-            <div>
-              <div class="eyebrow">ACTIVE TRAINING CASE / CW-026</div>
-              <h1>Case overview</h1>
-              <p>Review incident activity, identify repeat patterns, and document findings.</p>
-            </div>
-            <button class="button secondary" id="exportBtn">
-              Export records (.csv)
-            </button>
-          </div>
-
-          <div class="warning">
-            <strong>Simulation notice</strong>
-            All names, locations, incidents, and associations in this case are fictional.
-          </div>
-
-          <div class="metrics">
-            <article class="metric">
-              <span>INCIDENT RECORDS</span>
-              <strong id="metricTotal">—</strong>
-              <small>Across the training case</small>
-            </article>
-            <article class="metric">
-              <span>LOCATION AREAS</span>
-              <strong id="metricAreas">—</strong>
-              <small>Distinct facility locations</small>
-            </article>
-            <article class="metric">
-              <span>PERSONS REFERENCED</span>
-              <strong id="metricPeople">—</strong>
-              <small>Fictional identifiers</small>
-            </article>
-            <article class="metric">
-              <span>SAVED ANALYST NOTES</span>
-              <strong id="metricNotes">—</strong>
-              <small>Stored in this browser</small>
-            </article>
-          </div>
-
-          <div class="columns">
-            <article class="panel">
-              <div class="panel-heading">
-                <div>
-                  <h2>Incident distribution</h2>
-                  <p>Records grouped by incident classification</p>
-                </div>
-              </div>
-              <div id="typeChart" class="chart-bars"></div>
-            </article>
-
-            <article class="panel">
-              <div class="panel-heading">
-                <div>
-                  <h2>Activity by location</h2>
-                  <p>Most frequently referenced facility areas</p>
-                </div>
-              </div>
-              <div id="areaChart" class="location-list"></div>
-            </article>
-          </div>
-
-          <article class="panel">
-            <div class="panel-heading">
-              <div>
-                <h2>Recent reports</h2>
-                <p>Latest five entries in the case file</p>
-              </div>
-              <button class="text-action" data-go="records">
-                View all records →
-              </button>
-            </div>
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>RECORD</th>
-                    <th>DATE / TIME</th>
-                    <th>CLASSIFICATION</th>
-                    <th>LOCATION</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="recentRows"></tbody>
-              </table>
-            </div>
-          </article>
-        </section>
-
-        <!-- INCIDENT RECORDS -->
-        <section class="page" id="records">
-          <div class="page-heading">
-            <div>
-              <div class="eyebrow">CASE CW-026 / SOURCE REVIEW</div>
-              <h1>Incident records</h1>
-              <p>Filter the source material before drawing conclusions.</p>
-            </div>
-            <span class="result-count" id="resultCount"></span>
-          </div>
-
-          <article class="panel">
-            <div class="filters">
-              <label class="search">
-                <span>⌕</span>
-                <input
-                  id="searchInput"
-                  type="search"
-                  placeholder="Search ID, person, detail, or area..."
-                  aria-label="Search incident records"
-                >
-              </label>
-
-              <select id="typeFilter" aria-label="Filter by incident type">
-                <option value="">All classifications</option>
-              </select>
-
-              <select id="areaFilter" aria-label="Filter by location">
-                <option value="">All locations</option>
-              </select>
-
-              <button class="button secondary" id="clearFilters">
-                Reset
-              </button>
-            </div>
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>RECORD</th>
-                    <th>DATE / TIME</th>
-                    <th>CLASSIFICATION</th>
-                    <th>LOCATION</th>
-                    <th>SOURCE</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="recordRows"></tbody>
-              </table>
-            </div>
-
-            <div class="empty" id="noResults" hidden>
-              No records match the selected filters.
-            </div>
-          </article>
-        </section>
-
-        <!-- TIMELINE -->
-        <section class="page" id="timeline">
-          <div class="page-heading">
-            <div>
-              <div class="eyebrow">CASE CW-026 / CHRONOLOGY</div>
-              <h1>Incident timeline</h1>
-              <p>Review events in date order and open their source records.</p>
-            </div>
-          </div>
-
-          <div class="timeline" id="timelineItems"></div>
-        </section>
-
-        <!-- ANALYST NOTEBOOK -->
-        <section class="page" id="notebook">
-          <div class="page-heading">
-            <div>
-              <div class="eyebrow">CASE CW-026 / WORKING NOTES</div>
-              <h1>Analyst notebook</h1>
-              <p>Record observations without treating them as verified findings.</p>
-            </div>
-          </div>
-
-          <div class="columns notebook-columns">
-            <article class="panel note-form">
-              <div class="panel-heading">
-                <div>
-                  <h2>New observation</h2>
-                  <p>Keep analysis separate from source records.</p>
-                </div>
-              </div>
-
-              <label for="noteRecord">Related source record</label>
-              <select id="noteRecord">
-                <option value="">General observation — no linked record</option>
-              </select>
-
-              <label for="noteText">Observation or question</label>
-              <textarea
-                id="noteText"
-                rows="7"
-                maxlength="1500"
-                placeholder="What did you notice? Which detail needs verification?"
-              ></textarea>
-
-              <p class="help">
-                Notes are stored only on this device using browser storage.
-                Do not enter sensitive information.
-              </p>
-
-              <button class="button primary" id="saveNote">
-                Save observation
-              </button>
-              <p class="save-status" id="saveStatus" role="status"></p>
-            </article>
-
-            <article class="panel">
-              <div class="panel-heading">
-                <div>
-                  <h2>Saved observations</h2>
-                  <p id="notesCount">0 saved notes</p>
-                </div>
-              </div>
-              <div id="savedNotes" class="saved-notes"></div>
-            </article>
-          </div>
-        </section>
-      </main>
-
-      <footer>
-        CASEWORK · CMPA CAPSTONE PROTOTYPE
-        <span>TRAINING DATA / NOT FOR OPERATIONAL USE</span>
-      </footer>
     </div>
-  </div>
+  </header>
 
-  <!-- INCIDENT DETAIL DIALOG -->
-  <div class="modal-backdrop" id="modal" hidden>
-    <section
-      class="detail-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="detailTitle"
-    >
-      <div class="modal-top">
-        <span class="eyebrow">SOURCE RECORD</span>
-        <button class="icon-button" id="closeModal" aria-label="Close record">
-          ×
-        </button>
+  <nav class="site-nav" aria-label="Primary navigation">
+    <div class="site-nav-inner">
+      <button data-view="briefing" type="button">HOME</button>
+      <button data-view="casefiles" type="button">CASE FILES</button>
+      <button data-view="sources" class="active" type="button">SOURCE REVIEW</button>
+      <button data-view="findings" type="button">ANALYSIS</button>
+      <button data-view="product" type="button">INTELLIGENCE PRODUCTS</button>
+      <button data-view="guide" type="button">TRAINING GUIDE</button>
+    </div>
+  </nav>
+
+  <main class="site-main">
+    <div class="introduction">
+      <div class="eyebrow">EXERCISE 02 / WORKING CAPSTONE PROTOTYPE</div>
+      <h1>Corrections Intelligence Practice Workspace</h1>
+      <p>A guided environment for turning fictional reports into a defensible intelligence brief.</p>
+    </div>
+
+    <div class="purpose-line">
+      <span>CASE REVIEW ENVIRONMENT</span>
+      <p>Core interaction: review a source, record its relevance, connect supported entities, and document what still requires corroboration.</p>
+    </div>
+
+    <div class="application" id="application">
+      <div class="security-banner">TRAINING / UNCLASSIFIED / FICTIONAL CASE DATA</div>
+
+      <div class="application-header">
+        <div class="application-identity">
+          <span class="application-mark">CI</span>
+          <div>
+            <strong>CORRECTIONS INTELLIGENCE ANALYSIS WORKSPACE</strong>
+            <small>CASE TRAINING MODE · SESSION 04</small>
+          </div>
+        </div>
+        <span class="user-pill">ANALYST TRAINEE / LOCAL SESSION</span>
       </div>
 
-      <h2 id="detailTitle"></h2>
-      <div class="detail-grid" id="detailGrid"></div>
+      <div class="application-body">
+        <aside class="case-sidebar" aria-label="Case workspace navigation">
+          <div class="case-summary">
+            <span class="mini-label">ACTIVE CASE</span>
+            <h2>CR-2026-014</h2>
+            <p>SECURITY THREAT GROUP REVIEW</p>
+            <span class="sidebar-separator"></span>
+          </div>
 
-      <h3>Incident summary</h3>
-      <p id="detailSummary"></p>
+          <nav class="case-menu" aria-label="Case review sections">
+            <button data-view="briefing"><span>01</span>Case Brief</button>
+            <button data-view="sources" class="selected"><span>02</span>Source Review</button>
+            <button data-view="entities"><span>03</span>Entity Index</button>
+            <button data-view="associations"><span>04</span>Association Review</button>
+            <button data-view="timeline"><span>05</span>Event Timeline</button>
+            <button data-view="findings"><span>06</span>Analytic Findings</button>
+            <button data-view="product"><span>07</span>Final Brief</button>
+          </nav>
 
-      <div class="detail-footer">
-        <span>Fictional training report · Not independently verified</span>
-        <button class="button primary" id="addRecordNote">
-          Add note about this record
-        </button>
+          <div class="sidebar-note">
+            <strong>PRIVACY CHECK</strong>
+            <p>Fictional records only. No real personal, inmate, or agency data.</p>
+          </div>
+        </aside>
+
+        <div class="case-content">
+          <div class="case-topline">
+            <span id="breadcrumb">CASE FILES / CR-2026-014 / SOURCE REVIEW</span>
+            <span class="live-indicator">LOCAL TRAINING SESSION</span>
+          </div>
+
+          <div class="case-titlebar">
+            <div>
+              <h2 id="viewTitle">Security Threat Group Communication Review</h2>
+              <p id="viewDescription">OBJECTIVE: Identify a possible communication network and document only relationships supported by source reporting.</p>
+            </div>
+            <div class="case-state">
+              <span class="status-amber" id="caseStatus">ACTIVE REVIEW</span>
+              <small>UPDATED 12 NOV 2026 / SIMULATION</small>
+            </div>
+          </div>
+
+          <div class="view-area">
+
+            <!-- CASE BRIEF -->
+            <section class="view" id="view-briefing" hidden>
+              <div class="section-title">
+                <div>
+                  <h3>CASE BRIEF</h3>
+                  <p>Review parameters and analytical safeguards</p>
+                </div>
+                <span class="panel-counter">TRAINING CASE / OPEN</span>
+              </div>
+
+              <div class="briefing-grid">
+                <article class="white-panel padded">
+                  <div class="block-label">CASE OBJECTIVE</div>
+                  <h4>Determine what the sources actually support.</h4>
+                  <p>Review eight fictional source reports describing unit observations, movement records, property receipts, and phone-monitoring notes. The goal is to distinguish documented contact from assumptions and prepare a short evidence-referenced assessment.</p>
+
+                  <div class="facts">
+                    <div>
+                      <span>REPORTS IN FILE</span>
+                      <strong id="briefCount">08</strong>
+                    </div>
+                    <div>
+                      <span>REVIEWED</span>
+                      <strong id="briefReviewed">00</strong>
+                    </div>
+                    <div>
+                      <span>ASSESSMENTS</span>
+                      <strong id="briefFindings">00</strong>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="white-panel padded">
+                  <div class="block-label">ANALYTIC REQUIREMENTS</div>
+                  <ol class="instruction-list">
+                    <li>Read each source and inspect its provenance.</li>
+                    <li>Mark its relevance without changing the original report.</li>
+                    <li>Use entity and timeline views to examine overlaps.</li>
+                    <li>Document gaps, uncertainty, and supporting evidence.</li>
+                    <li>Prepare and print a fictional intelligence brief.</li>
+                  </ol>
+                  <button class="primary-button" data-view="sources">Begin source review</button>
+                </article>
+              </div>
+            </section>
+
+            <!-- SOURCE REVIEW -->
+            <section class="view active" id="view-sources">
+              <div class="work-grid">
+                <article class="white-panel source-panel">
+                  <div class="panel-heading">
+                    <h3>SOURCE REPORT REGISTER</h3>
+                    <span class="panel-counter" id="reviewCounter">0 OF 8 REVIEWED</span>
+                  </div>
+
+                  <div class="source-toolbar">
+                    <label>
+                      <span class="sr-only">Search reports</span>
+                      <input id="searchReports" placeholder="Search report, type, reference..." type="search">
+                    </label>
+                    <select id="relevanceFilter" aria-label="Filter by relevance">
+                      <option value="">ALL RELEVANCE</option>
+                      <option>HIGH</option>
+                      <option>MEDIUM</option>
+                      <option>LOW</option>
+                    </select>
+                  </div>
+
+                  <div class="table-scroll">
+                    <table class="register-table">
+                      <thead>
+                        <tr>
+                          <th>REPORT ID</th>
+                          <th>SOURCE TYPE</th>
+                          <th>DATE</th>
+                          <th>RELEVANCE</th>
+                          <th>STATUS</th>
+                        </tr>
+                      </thead>
+                      <tbody id="sourceRows"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="panel-bottom">
+                    <span id="sourceCount">8 reports</span>
+                    <span>SELECT A ROW TO INSPECT</span>
+                  </div>
+                </article>
+
+                <article class="white-panel diagram-panel">
+                  <div class="panel-heading">
+                    <h3>ASSOCIATION REVIEW</h3>
+                    <span class="draft-label">DRAFT</span>
+                  </div>
+
+                  <div class="mini-graph">
+                    <svg viewBox="0 0 440 220" role="img" aria-label="Fictional diagram connecting Person A and Person B to a group reference and device reference">
+                      <path d="M85 144 L214 64 L355 144 M85 144 L214 188 L355 144 M214 64 L214 188" stroke="#536c81" stroke-width="1.6" fill="none" />
+
+                      <rect x="164" y="32" width="100" height="42" fill="#f9c94f" stroke="#cfab45"/>
+                      <text x="214" y="49" text-anchor="middle">G-01</text>
+                      <text x="214" y="64" text-anchor="middle">GROUP REF.</text>
+
+                      <rect x="20" y="122" width="130" height="46" fill="#11283f"/>
+                      <text x="85" y="142" text-anchor="middle" class="light">P-01</text>
+                      <text x="85" y="157" text-anchor="middle" class="light">PERSON A</text>
+
+                      <rect x="290" y="122" width="130" height="46" fill="#11283f"/>
+                      <text x="355" y="142" text-anchor="middle" class="light">P-02</text>
+                      <text x="355" y="157" text-anchor="middle" class="light">PERSON B</text>
+
+                      <rect x="164" y="171" width="100" height="38" fill="#dcecf5" stroke="#aac6d4"/>
+                      <text x="214" y="186" text-anchor="middle">D-01</text>
+                      <text x="214" y="200" text-anchor="middle">DEVICE REF.</text>
+                    </svg>
+                  </div>
+
+                  <div class="analytic-check">
+                    <strong>ANALYTIC CHECK</strong>
+                    <p>Two relationships require corroboration before they can support the final assessment.</p>
+                  </div>
+                  <button class="panel-link" data-view="associations" type="button">OPEN ASSOCIATION REVIEW →</button>
+                </article>
+              </div>
+            </section>
+
+            <!-- CASE FILES -->
+            <section class="view" id="view-casefiles" hidden>
+              <article class="white-panel padded">
+                <div class="block-label">AVAILABLE TRAINING CASES</div>
+                <div class="case-file-row">
+                  <div>
+                    <strong>CR-2026-014</strong>
+                    <h4>Security Threat Group Communication Review</h4>
+                    <p>Eight reports · Fictional training case · Local session</p>
+                  </div>
+                  <button class="primary-button" data-view="sources">Open case</button>
+                </div>
+                <div class="small-notice">Only one case is included in this capstone prototype. No agency database or login is connected.</div>
+              </article>
+            </section>
+
+            <!-- ENTITY INDEX -->
+            <section class="view" id="view-entities" hidden>
+              <article class="white-panel">
+                <div class="panel-heading">
+                  <h3>ENTITY INDEX / REFERENCES IN SOURCE REPORTS</h3>
+                  <span class="panel-counter">4 REFERENCE MARKERS</span>
+                </div>
+
+                <div class="table-scroll">
+                  <table class="register-table entity-table">
+                    <thead>
+                      <tr>
+                        <th>REFERENCE</th>
+                        <th>TYPE</th>
+                        <th>SUMMARY</th>
+                        <th>SOURCES</th>
+                        <th>REVIEW</th>
+                      </tr>
+                    </thead>
+                    <tbody id="entityRows"></tbody>
+                  </table>
+                </div>
+                <div class="small-notice">Entity references are training identifiers, not determinations of affiliation, guilt, or misconduct.</div>
+              </article>
+            </section>
+
+            <!-- ASSOCIATION REVIEW -->
+            <section class="view" id="view-associations" hidden>
+              <div class="analysis-grid">
+                <article class="white-panel padded">
+                  <div class="block-label">PROVISIONAL REFERENCE NETWORK</div>
+                  <h4>Documented references ≠ verified criminal association</h4>
+                  <p class="body-small">Select a reference to inspect the underlying fictional reports. The diagram organizes the scenario; it does not independently prove a relationship.</p>
+                  <div id="network" class="network"></div>
+                </article>
+
+                <article class="white-panel padded">
+                  <div class="block-label">SOURCE CORROBORATION</div>
+                  <h4 id="networkTitle">Select an entity</h4>
+                  <p id="networkDescription" class="body-small">Choose a reference in the diagram.</p>
+                  <div id="networkSources" class="network-sources"></div>
+                </article>
+              </div>
+            </section>
+
+            <!-- EVENT TIMELINE -->
+            <section class="view" id="view-timeline" hidden>
+              <article class="white-panel">
+                <div class="panel-heading">
+                  <h3>CHRONOLOGY / SOURCE-DOCUMENTED EVENTS</h3>
+                  <span class="panel-counter">DATE ORDER</span>
+                </div>
+                <div id="timelineItems" class="event-list"></div>
+              </article>
+            </section>
+
+            <!-- ANALYTIC FINDINGS -->
+            <section class="view" id="view-findings" hidden>
+              <div class="analysis-grid">
+                <article class="white-panel padded">
+                  <div class="block-label">NEW ANALYTIC FINDING</div>
+
+                  <form id="findingForm">
+                    <label class="field-label" for="findingTitle">FINDING OR INTELLIGENCE GAP</label>
+                    <input id="findingTitle" required maxlength="120" placeholder="e.g., Timing overlap needs verification">
+
+                    <label class="field-label" for="findingText">ASSESSMENT / LIMITATIONS</label>
+                    <textarea id="findingText" required rows="5" maxlength="1200" placeholder="What do the sources show? What remains unconfirmed?"></textarea>
+
+                    <div class="two-fields">
+                      <div>
+                        <label class="field-label" for="findingSource">SUPPORTING SOURCE</label>
+                        <select id="findingSource" required></select>
+                      </div>
+                      <div>
+                        <label class="field-label" for="findingConfidence">CONFIDENCE</label>
+                        <select id="findingConfidence">
+                          <option>LOW</option>
+                          <option selected>MODERATE</option>
+                          <option>HIGH</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <button class="primary-button" type="submit">Save finding</button>
+                    <div class="form-message" id="findingStatus" role="status"></div>
+                  </form>
+                </article>
+
+                <article class="white-panel padded">
+                  <div class="block-label">SAVED ANALYTIC WORK</div>
+                  <div id="findingList" class="finding-list"></div>
+                </article>
+              </div>
+            </section>
+
+            <!-- FINAL BRIEF -->
+            <section class="view" id="view-product" hidden>
+              <div class="analysis-grid">
+                <article class="white-panel padded">
+                  <div class="block-label">INTELLIGENCE PRODUCT / WORKING DRAFT</div>
+                  <h4>Training Case Intelligence Brief</h4>
+
+                  <label class="field-label" for="briefText">ANALYST SUMMARY</label>
+                  <textarea id="briefText" rows="9" maxlength="4000" placeholder="Summarize the supported observations, limitations, confidence, and remaining intelligence gaps."></textarea>
+
+                  <div class="button-row">
+                    <button class="primary-button" id="saveBrief" type="button">Save draft</button>
+                    <button class="outline-button" id="printBrief" type="button">Print / Save PDF</button>
+                  </div>
+
+                  <div class="form-message" id="briefStatus" role="status"></div>
+                </article>
+
+                <article class="white-panel padded">
+                  <div class="block-label">SUPPORTING MATERIAL</div>
+                  <div id="briefEvidence"></div>
+                  <div class="small-notice">Drafts are saved in this browser only. Printing uses the system print dialog.</div>
+                </article>
+              </div>
+            </section>
+
+            <!-- TRAINING GUIDE -->
+            <section class="view" id="view-guide" hidden>
+              <article class="white-panel padded">
+                <div class="block-label">TRAINING GUIDE</div>
+                <h4>How to complete the fictional case exercise</h4>
+
+                <ol class="instruction-list guide-list">
+                  <li>Open Source Review. Click report rows to read the summaries and identify the source type.</li>
+                  <li>Use the relevance field to rate whether a report helps answer the case objective. Mark reports reviewed.</li>
+                  <li>Check Entity Index, Association Review, and Event Timeline. These organize references, but do not prove intent.</li>
+                  <li>Write findings with supporting report IDs. State uncertainty and what requires corroboration.</li>
+                  <li>Draft an intelligence brief, then print or save it as a PDF.</li>
+                </ol>
+
+                <div class="small-notice">Training use only. All names and events are invented; this system stores no sensitive records and is not an operational intelligence platform.</div>
+                <button class="primary-button" data-view="sources">Go to Source Review</button>
+              </article>
+            </section>
+
+          </div>
+
+          <!-- CASE WORKFLOW -->
+          <div class="workflow" aria-label="Case workflow">
+            <button data-view="sources"><strong>01</strong> REVIEW REPORTS</button>
+            <button data-view="entities"><strong>02</strong> TAG ENTITIES</button>
+            <button data-view="associations" class="active"><strong>03</strong> BUILD ASSOCIATIONS</button>
+            <button data-view="timeline"><strong>04</strong> CREATE TIMELINE</button>
+            <button data-view="product"><strong>05</strong> WRITE BRIEF</button>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+
+    <footer class="site-footer">
+      CRIMINAL INTELLIGENCE ANALYSIS LAB
+      <span>ORIGINAL EDUCATIONAL PROTOTYPE · NO AGENCY AFFILIATION</span>
+    </footer>
+  </main>
+
+  <!-- SOURCE REPORT DETAILS -->
+  <div id="recordOverlay" class="record-overlay" hidden>
+    <div class="record-scrim" data-close="1"></div>
+
+    <aside class="record-drawer" role="dialog" aria-modal="true" aria-labelledby="recordHeading">
+      <div class="drawer-heading">
+        <div>
+          <span class="mini-label">ORIGINAL SOURCE RECORD</span>
+          <h2 id="recordHeading">RPT-014-01</h2>
+        </div>
+        <button class="close-button" type="button" id="closeRecord" aria-label="Close report">×</button>
+      </div>
+
+      <dl id="recordDetails" class="record-details"></dl>
+
+      <div class="drawer-subheading">SOURCE SUMMARY</div>
+      <p id="recordSummary" class="record-text"></p>
+
+      <div class="small-notice">Fictional training report. A reference is not a verified association or finding of wrongdoing.</div>
+
+      <label class="field-label" for="recordRelevance">RELEVANCE TO CASE OBJECTIVE</label>
+      <select id="recordRelevance">
+        <option>HIGH</option>
+        <option>MEDIUM</option>
+        <option>LOW</option>
+      </select>
+
+      <label class="check-field">
+        <input type="checkbox" id="recordReviewed">
+        Report reviewed
+      </label>
+
+      <div class="drawer-buttons">
+        <button class="primary-button" id="saveReview" type="button">Save review</button>
+        <button class="outline-button" id="recordToFinding" type="button">Add finding</button>
+      </div>
+
+      <div id="reviewStatus" class="form-message" role="status"></div>
+    </aside>
   </div>
+
+  <div id="printDocument" class="print-document" aria-hidden="true"></div>
 </body>
 </html>
