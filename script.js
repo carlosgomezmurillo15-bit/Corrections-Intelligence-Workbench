@@ -1,430 +1,1075 @@
 
-// Fictional training records. Not an operational agency system.
+"use strict";
 
-const raw = [
-  ["2026-10-20", "07:15", "Access discrepancy", "North Corridor", "M. Reyes", "Door N-4 recorded as unsecured during scheduled morning check.", "Shift log"],
-  ["2026-10-20", "19:40", "Unusual movement", "Housing B", "J. Porter", "Two unscheduled movements were recorded near the east stairwell.", "Officer report"],
-  ["2026-10-21", "12:10", "Property discrepancy", "Property Room", "L. Chen", "Inventory count identified one missing sealed property envelope.", "Inventory log"],
-  ["2026-10-21", "22:30", "Communication concern", "Housing B", "J. Porter, A. Brooks", "Staff documented repeated attempts to pass handwritten messages.", "Officer report"],
-  ["2026-10-22", "08:05", "Access discrepancy", "North Corridor", "M. Reyes", "Access log showed a badge attempt outside an assigned work period.", "Access log"],
-  ["2026-10-22", "16:50", "Unusual movement", "Recreation Hall", "A. Brooks", "Movement between assigned areas was recorded without a matching schedule entry.", "Movement log"],
-  ["2026-10-23", "11:20", "Property discrepancy", "Housing C", "D. Ellis", "A routine inventory identified an unassigned personal item.", "Inventory log"],
-  ["2026-10-23", "21:05", "Communication concern", "Housing B", "J. Porter", "An officer reported a disputed exchange of notes during evening movement.", "Officer report"],
-  ["2026-10-24", "09:30", "Access discrepancy", "Service Entrance", "M. Reyes", "Entry request occurred during a temporary access restriction.", "Access log"],
-  ["2026-10-24", "18:15", "Unusual movement", "Recreation Hall", "A. Brooks, D. Ellis", "Two individuals appeared in the same unscheduled movement entry.", "Movement log"],
-  ["2026-10-25", "06:55", "Safety observation", "Housing C", "D. Ellis", "Staff documented an obstruction in a shared inspection area.", "Inspection note"],
-  ["2026-10-25", "20:40", "Communication concern", "Housing B", "A. Brooks", "Officer reported possible message passing; contents were not recovered.", "Officer report"],
-  ["2026-10-26", "13:25", "Property discrepancy", "Property Room", "L. Chen", "Follow-up reconciliation did not resolve the earlier inventory difference.", "Inventory log"],
-  ["2026-10-26", "23:10", "Access discrepancy", "North Corridor", "M. Reyes", "Door N-4 recorded an additional after-hours opening event.", "Access log"],
-  ["2026-10-27", "07:45", "Safety observation", "Recreation Hall", "D. Ellis", "Maintenance request noted a damaged storage cabinet latch.", "Inspection note"],
-  ["2026-10-27", "17:20", "Unusual movement", "Housing B", "J. Porter, A. Brooks", "Movement record referenced both identifiers during an unplanned corridor transfer.", "Movement log"],
-  ["2026-10-28", "10:10", "Communication concern", "Housing C", "D. Ellis", "Staff recovered an unsigned message with no verified author.", "Officer report"],
-  ["2026-10-28", "19:55", "Access discrepancy", "Service Entrance", "M. Reyes", "An access attempt was denied by the electronic entry system.", "Access log"],
-  ["2026-10-29", "14:00", "Property discrepancy", "Property Room", "L. Chen", "Audit identified a labeling mismatch between two inventory entries.", "Inventory log"],
-  ["2026-10-29", "22:35", "Unusual movement", "North Corridor", "J. Porter", "A movement entry lacked the usual destination field.", "Movement log"],
-  ["2026-10-30", "08:20", "Safety observation", "Housing C", "D. Ellis", "Routine inspection logged an unattended maintenance tool.", "Inspection note"],
-  ["2026-10-31", "16:05", "Communication concern", "Recreation Hall", "A. Brooks", "An officer noted a possible exchange; observation remains unconfirmed.", "Officer report"],
-  ["2026-11-01", "20:45", "Access discrepancy", "North Corridor", "M. Reyes", "Access record again referenced Door N-4 outside the normal sequence.", "Access log"],
-  ["2026-11-02", "11:35", "Property discrepancy", "Housing C", "D. Ellis", "Property check noted a second inventory mismatch awaiting review.", "Inventory log"],
-  ["2026-11-03", "18:30", "Unusual movement", "Housing B", "J. Porter", "Unscheduled movement appeared in an evening activity report.", "Movement log"]
+// ======================================================
+// CRIMINAL INTELLIGENCE ANALYSIS LAB
+// Fictional case CR-2026-014
+// Educational simulation only.
+// ======================================================
+
+// SOURCE REPORTS
+
+const records = [
+  {
+    id: "RPT-014-01",
+    date: "2026-11-10",
+    type: "Housing Unit Observation",
+    refs: ["P-01", "P-02"],
+    relevance: "HIGH",
+    source: "Officer observation",
+    summary: "Two fictional person identifiers appeared in an observation near the unit common area. The report records proximity, not a confirmed exchange or agreement."
+  },
+  {
+    id: "RPT-014-02",
+    date: "2026-11-10",
+    type: "Monitored Phone Note",
+    refs: ["P-02", "D-01"],
+    relevance: "HIGH",
+    source: "Fictional phone-monitoring note",
+    summary: "A training note referenced a device identifier also present in an earlier administrative record. Ownership and use are unverified."
+  },
+  {
+    id: "RPT-014-03",
+    date: "2026-11-11",
+    type: "Property Receipt",
+    refs: ["P-01", "D-01"],
+    relevance: "MEDIUM",
+    source: "Property receipt",
+    summary: "The property log lists a generic device reference under a fictional person identifier. No communications content or intent is established."
+  },
+  {
+    id: "RPT-014-04",
+    date: "2026-11-11",
+    type: "Program Attendance Log",
+    refs: ["P-01", "P-02"],
+    relevance: "LOW",
+    source: "Administrative attendance log",
+    summary: "Both person identifiers appear on the same scheduled program attendance sheet. Shared attendance is routine and does not demonstrate coordination."
+  },
+  {
+    id: "RPT-014-05",
+    date: "2026-11-11",
+    type: "Unit Movement Log",
+    refs: ["P-02", "G-01"],
+    relevance: "MEDIUM",
+    source: "Movement log",
+    summary: "A movement entry contains a provisional group reference marker. The abbreviation has not been explained or independently attributed."
+  },
+  {
+    id: "RPT-014-06",
+    date: "2026-11-12",
+    type: "Follow-up Observation",
+    refs: ["P-01", "G-01"],
+    relevance: "HIGH",
+    source: "Officer observation",
+    summary: "A follow-up account used the same group marker while describing a separate encounter. The source did not establish the marker's meaning."
+  },
+  {
+    id: "RPT-014-07",
+    date: "2026-11-12",
+    type: "Shift Assignment Log",
+    refs: ["P-02"],
+    relevance: "LOW",
+    source: "Administrative roster",
+    summary: "A routine assignment entry places the identifier within the relevant housing unit; the record contains no allegation or suspicious behavior."
+  },
+  {
+    id: "RPT-014-08",
+    date: "2026-11-12",
+    type: "Interview Summary",
+    refs: ["P-01", "D-01", "G-01"],
+    relevance: "MEDIUM",
+    source: "Unverified interview summary",
+    summary: "A fictional interview mentioned several reference markers without independent supporting documents. Statements remain uncorroborated and should not be treated as verified findings."
+  }
 ];
 
-// Convert case data into incident objects.
-const records = raw.map((r, i) => ({
-  id: `CW-${String(i + 1).padStart(3, "0")}`,
-  date: r[0],
-  time: r[1],
-  type: r[2],
-  area: r[3],
-  people: r[4],
-  summary: r[5],
-  source: r[6]
-})).reverse();
+// ENTITY REFERENCES
 
-// Common helpers.
-const $ = selector => document.querySelector(selector);
+const entities = [
+  {
+    id: "P-01",
+    kind: "PERSON IDENTIFIER",
+    summary: "Person A, referenced in observation and administrative records."
+  },
+  {
+    id: "P-02",
+    kind: "PERSON IDENTIFIER",
+    summary: "Person B, referenced in observation and movement records."
+  },
+  {
+    id: "G-01",
+    kind: "GROUP REFERENCE",
+    summary: "Unverified group marker mentioned in fictional reports; not a confirmed affiliation."
+  },
+  {
+    id: "D-01",
+    kind: "DEVICE REFERENCE",
+    summary: "Generic device reference; custody, ownership, and use not established."
+  }
+];
+
+// ELEMENT HELPERS
+
+const $ = id => document.getElementById(id);
 const $$ = selector => [...document.querySelectorAll(selector)];
 
-const distinct = key =>
-  [...new Set(records.map(r => r[key]))].sort();
-
-const dateText = date =>
-  new Date(`${date}T12:00:00`).toLocaleDateString(
-    "en-US",
-    { month: "short", day: "numeric", year: "numeric" }
-  );
-
-// Load saved notes.
-const notesKey = "casework-cw026-notes";
-let notes = [];
-
-try {
-  const stored = JSON.parse(localStorage.getItem(notesKey) || "[]");
-  notes = Array.isArray(stored) ? stored : [];
-} catch {
-  notes = [];
+function node(tag, cls, text) {
+  const el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (text !== undefined) el.textContent = text;
+  return el;
 }
 
-function saveNotes() {
+function formatDate(s) {
+  return new Date(`${s}T12:00:00`).toLocaleDateString(
+    "en-US",
+    {
+      month: "numeric",
+      day: "numeric",
+      year: "2-digit"
+    }
+  );
+}
+
+// LOCAL BROWSER STORAGE
+
+const storageKey = "cila-cr-2026-014-v1";
+
+const defaults = {
+  reviews: {},
+  findings: [],
+  brief: ""
+};
+
+let state = { ...defaults };
+
+try {
+  const stored = JSON.parse(
+    localStorage.getItem(storageKey) || "{}"
+  );
+
+  if (stored && typeof stored === "object") {
+    state = {
+      reviews: stored.reviews || {},
+      findings: Array.isArray(stored.findings)
+        ? stored.findings
+        : [],
+      brief: typeof stored.brief === "string"
+        ? stored.brief
+        : ""
+    };
+  }
+} catch {
+  state = { ...defaults };
+}
+
+function save() {
   try {
-    localStorage.setItem(notesKey, JSON.stringify(notes));
+    localStorage.setItem(storageKey, JSON.stringify(state));
     return true;
   } catch {
     return false;
   }
 }
 
-// Navigation.
-function route(page) {
-  $$(".page").forEach(p => {
-    p.classList.toggle("active", p.id === page);
-  });
+// NAVIGATION CONFIGURATION
 
-  $$(".nav-link").forEach(b => {
-    b.classList.toggle("active", b.dataset.page === page);
-  });
+const titles = {
+  briefing: "Case Brief",
+  casefiles: "Training Case Files",
+  sources: "Security Threat Group Communication Review",
+  entities: "Entity Index",
+  associations: "Association Review",
+  timeline: "Event Timeline",
+  findings: "Analytic Findings",
+  product: "Intelligence Brief",
+  guide: "Training Guide"
+};
 
-  $("#breadcrumb").textContent = {
-    overview: "Overview",
-    records: "Incident records",
-    timeline: "Timeline",
-    notebook: "Analyst notebook"
-  }[page];
+const descriptions = {
+  briefing: "OBJECTIVE: Review the scenario, evidence limits, and assessment requirements.",
+  casefiles: "AVAILABLE CASE: Select the current fictional training file.",
+  sources: "OBJECTIVE: Identify a possible communication network and document only relationships supported by source reporting.",
+  entities: "SOURCE INDEX: Track fictional reference identifiers back to specific reports.",
+  associations: "ANALYSIS: Review reported connections; distinguish co-reference from verified relationships.",
+  timeline: "CHRONOLOGY: Review the order of events as described in the source reports.",
+  findings: "ASSESSMENT: Record a conclusion or question with its source and confidence.",
+  product: "INTELLIGENCE PRODUCT: Prepare a source-referenced summary with explicit limitations.",
+  guide: "TRAINING MODE: Step-by-step instructions for this simulated case."
+};
 
-  window.scrollTo(0, 0);
-}
-
-$$(".nav-link").forEach(button => {
-  button.addEventListener("click", () => route(button.dataset.page));
-});
-
-$$("[data-go]").forEach(button => {
-  button.addEventListener("click", () => route(button.dataset.go));
-});
-
-// Record table.
-function tag(type) {
-  return `<span class="pill">${type}</span>`;
-}
-
-function tableRow(r, hasSource) {
-  return `
-    <tr>
-      <td>${r.id}</td>
-      <td>${dateText(r.date)} · ${r.time}</td>
-      <td>${tag(r.type)}</td>
-      <td>${r.area}</td>
-      ${hasSource ? `<td>${r.source}</td>` : ""}
-      <td>
-        <button class="open-btn" data-record="${r.id}">
-          Open →
-        </button>
-      </td>
-    </tr>
-  `;
-}
-
-// Count reports by category or area.
-function counts(key) {
-  return records.reduce((acc, r) => {
-    acc[r[key]] = (acc[r[key]] || 0) + 1;
-    return acc;
-  }, {});
-}
-
-// Dashboard charts.
-function renderCharts() {
-  const types = Object.entries(counts("type"))
-    .sort((a, b) => b[1] - a[1]);
-
-  const max = types[0][1];
-
-  $("#typeChart").innerHTML = types.map(([name, n]) => `
-    <div class="bar-line">
-      <span>${name}</span>
-      <div class="bar-track">
-        <div class="bar-fill" style="width:${n / max * 100}%"></div>
-      </div>
-      <strong>${n}</strong>
-    </div>
-  `).join("");
-
-  $("#areaChart").innerHTML = Object.entries(counts("area"))
-    .sort((a, b) => b[1] - a[1])
-    .map(([area, n]) => `
-      <div class="location-row">
-        <span>${area}</span>
-        <strong>${n}</strong>
-      </div>
-    `).join("");
-}
-
-// Dashboard statistics.
-function renderSummary() {
-  $("#metricTotal").textContent = records.length;
-  $("#metricAreas").textContent = distinct("area").length;
-
-  $("#metricPeople").textContent = new Set(
-    records.flatMap(r =>
-      r.people.split(",").map(person => person.trim())
-    )
-  ).size;
-
-  $("#metricNotes").textContent = notes.length;
-
-  $("#recentRows").innerHTML = records
-    .slice(0, 5)
-    .map(r => tableRow(r, false))
-    .join("");
-
-  renderCharts();
-}
-
-// Search and filter reports.
-function renderRecords() {
-  const q = $("#searchInput").value.toLowerCase().trim();
-  const type = $("#typeFilter").value;
-  const area = $("#areaFilter").value;
-
-  const list = records.filter(r =>
-    (!type || r.type === type) &&
-    (!area || r.area === area) &&
-    (!q || Object.values(r).join(" ").toLowerCase().includes(q))
-  );
-
-  $("#recordRows").innerHTML = list
-    .map(r => tableRow(r, true))
-    .join("");
-
-  $("#resultCount").textContent =
-    `${list.length} of ${records.length} records`;
-
-  $("#noResults").hidden = list.length > 0;
-}
-
-// Timeline.
-function renderTimeline() {
-  $("#timelineItems").innerHTML = records.map(r => `
-    <article class="timeline-event">
-      <div class="timeline-date">
-        ${dateText(r.date)} · ${r.time} / ${r.id}
-      </div>
-
-      <h3>${r.type} — ${r.area}</h3>
-      <p>${r.summary}</p>
-
-      <button class="open-btn" data-record="${r.id}">
-        View source record →
-      </button>
-    </article>
-  `).join("");
-}
-
-// Record details.
-function detailField(name, value) {
-  const div = document.createElement("div");
-  div.className = "detail-field";
-
-  const small = document.createElement("small");
-  small.textContent = name;
-
-  const strong = document.createElement("strong");
-  strong.textContent = value;
-
-  div.append(small, strong);
-  return div;
-}
-
+let activeView = "sources";
 let activeRecord = null;
+let activeEntity = "P-01";
+
+// PAGE NAVIGATION
+
+function navigate(view) {
+  if (!titles[view]) return;
+
+  activeView = view;
+
+  $$(".view").forEach(el => {
+    el.classList.toggle(
+      "active",
+      el.id === `view-${view}`
+    );
+
+    el.hidden = el.id !== `view-${view}`;
+  });
+
+  $$("[data-view]").forEach(el => {
+    el.classList.toggle(
+      "selected",
+      el.closest(".case-menu") !== null &&
+      el.dataset.view === view
+    );
+
+    el.classList.toggle(
+      "active",
+      el.closest(".site-nav") !== null &&
+      el.dataset.view === view
+    );
+  });
+
+  $("breadcrumb").textContent =
+    `CASE FILES / CR-2026-014 / ${titles[view].toUpperCase()}`;
+
+  $("viewTitle").textContent = titles[view];
+  $("viewDescription").textContent = descriptions[view];
+
+  $$(".workflow button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.view === view
+    );
+  });
+
+  if (view === "product") renderEvidence();
+  if (view === "associations") renderNetwork();
+  if (view === "findings") renderFindings();
+}
+
+// REPORT REVIEW COUNTERS
+
+function reviewedCount() {
+  return records.filter(
+    r => Boolean(state.reviews[r.id]?.reviewed)
+  ).length;
+}
+
+function reviewValue(r) {
+  return state.reviews[r.id] || {};
+}
+
+// SOURCE REPORT REGISTER
+
+function renderSources() {
+  const search = $("searchReports").value.trim().toLowerCase();
+  const relevance = $("relevanceFilter").value;
+
+  const matches = records.filter(r => {
+    const rating =
+      reviewValue(r).relevance || r.relevance;
+
+    const ratingMatches =
+      !relevance || rating === relevance;
+
+    const searchMatches =
+      !search ||
+      [
+        r.id,
+        r.type,
+        r.date,
+        r.source,
+        ...r.refs,
+        r.summary
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(search);
+
+    return ratingMatches && searchMatches;
+  });
+
+  const tbody = $("sourceRows");
+  tbody.replaceChildren();
+
+  for (const r of matches) {
+    const tr = node("tr");
+    tr.tabIndex = 0;
+
+    tr.setAttribute(
+      "aria-label",
+      `Open ${r.id}, ${r.type}`
+    );
+
+    tr.addEventListener(
+      "click",
+      () => openRecord(r.id)
+    );
+
+    tr.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openRecord(r.id);
+      }
+    });
+
+    const rating =
+      reviewValue(r).relevance || r.relevance;
+
+    const reviewed = Boolean(reviewValue(r).reviewed);
+
+    const cells = [
+      ["id-link", r.id],
+      ["", r.type],
+      ["", formatDate(r.date)],
+      [`relevance ${rating}`, rating],
+      [
+        `status-txt ${reviewed ? "reviewed" : ""}`,
+        reviewed ? "REVIEWED" : "OPEN"
+      ]
+    ];
+
+    for (const [cls, value] of cells) {
+      tr.append(node("td", cls, value));
+    }
+
+    tbody.append(tr);
+  }
+
+  if (!matches.length) {
+    const tr = node("tr");
+    const td = node(
+      "td",
+      "",
+      "No reports match the filters."
+    );
+
+    td.colSpan = 5;
+    tr.append(td);
+    tbody.append(tr);
+  }
+
+  $("sourceCount").textContent =
+    `${matches.length} of ${records.length} reports displayed`;
+
+  const count = reviewedCount();
+
+  $("reviewCounter").textContent =
+    `${count} OF ${records.length} REVIEWED`;
+
+  $("briefReviewed").textContent =
+    String(count).padStart(2, "0");
+
+  $("briefCount").textContent =
+    String(records.length).padStart(2, "0");
+
+  $("briefFindings").textContent =
+    String(state.findings.length).padStart(2, "0");
+
+  $("caseStatus").textContent =
+    count === records.length
+      ? "REVIEW COMPLETE"
+      : "ACTIVE REVIEW";
+}
+
+// OPEN SOURCE REPORT
 
 function openRecord(id) {
-  const r = records.find(record => record.id === id);
+  const r = records.find(x => x.id === id);
+
   if (!r) return;
 
   activeRecord = r;
 
-  $("#detailTitle").textContent = `${r.id} · ${r.type}`;
+  $("recordHeading").textContent = id;
 
-  $("#detailGrid").replaceChildren(
-    detailField("DATE / TIME", `${dateText(r.date)} · ${r.time}`),
-    detailField("FACILITY AREA", r.area),
-    detailField("REFERENCED PERSON(S)", r.people),
-    detailField("SOURCE TYPE", r.source)
-  );
+  const dl = $("recordDetails");
+  dl.replaceChildren();
 
-  $("#detailSummary").textContent = r.summary;
-  $("#modal").hidden = false;
-  $("#closeModal").focus();
+  const fields = [
+    ["SOURCE TYPE", r.type],
+    ["REPORT DATE", formatDate(r.date)],
+    ["PROVENANCE", r.source],
+    ["ENTITY REFERENCES", r.refs.join(", ")]
+  ];
+
+  for (const [key, value] of fields) {
+    const div = node("div");
+    const dt = node("dt", "", key);
+    const dd = node("dd", "", value);
+
+    div.append(dt, dd);
+    dl.append(div);
+  }
+
+  $("recordSummary").textContent = r.summary;
+
+  $("recordRelevance").value =
+    reviewValue(r).relevance || r.relevance;
+
+  $("recordReviewed").checked =
+    Boolean(reviewValue(r).reviewed);
+
+  $("reviewStatus").textContent = "";
+
+  $("recordOverlay").hidden = false;
+  document.body.style.overflow = "hidden";
+  $("closeRecord").focus();
 }
 
 function closeRecord() {
-  $("#modal").hidden = true;
-  activeRecord = null;
+  $("recordOverlay").hidden = true;
+  document.body.style.overflow = "";
 }
 
-// Open a report from the table or timeline.
-document.addEventListener("click", e => {
-  const button = e.target.closest("[data-record]");
-  if (button) openRecord(button.dataset.record);
-});
+// SAVE SOURCE REVIEW
 
-$("#closeModal").addEventListener("click", closeRecord);
+function saveReview() {
+  if (!activeRecord) return;
 
-$("#modal").addEventListener("click", e => {
-  if (e.target.id === "modal") closeRecord();
-});
+  state.reviews[activeRecord.id] = {
+    reviewed: $("recordReviewed").checked,
+    relevance: $("recordRelevance").value
+  };
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeRecord();
-});
+  const successful = save();
 
-// Create a note linked to the selected report.
-$("#addRecordNote").addEventListener("click", () => {
-  const id = activeRecord.id;
-  closeRecord();
-  route("notebook");
+  renderSources();
 
-  $("#noteRecord").value = id;
-  $("#noteText").focus();
-});
+  $("reviewStatus").textContent = successful
+    ? "Review saved in this browser."
+    : "Review updated for this session; browser storage is unavailable.";
+}
 
-// Live search and filters.
-["searchInput", "typeFilter", "areaFilter"].forEach(id => {
-  const eventName = id === "searchInput" ? "input" : "change";
+// ENTITY INDEX
 
-  $("#" + id).addEventListener(eventName, renderRecords);
-});
+function renderEntities() {
+  const tbody = $("entityRows");
+  tbody.replaceChildren();
 
-$("#clearFilters").addEventListener("click", () => {
-  $("#searchInput").value = "";
-  $("#typeFilter").value = "";
-  $("#areaFilter").value = "";
-  renderRecords();
-});
+  for (const entity of entities) {
+    const linked = records.filter(
+      r => r.refs.includes(entity.id)
+    );
 
-// Display saved analyst notes.
-function renderNotes() {
-  const list = $("#savedNotes");
-  list.replaceChildren();
+    const tr = node("tr");
 
-  $("#notesCount").textContent =
-    `${notes.length} saved note${notes.length === 1 ? "" : "s"}`;
+    const values = [
+      entity.id,
+      entity.kind,
+      entity.summary,
+      String(linked.length)
+    ];
 
-  if (!notes.length) {
-    const p = document.createElement("p");
-    p.className = "note-placeholder";
-    p.textContent =
-      "Nothing saved yet. Open a source record and record what needs closer review.";
-    list.append(p);
-  }
+    for (const value of values) {
+      tr.append(
+        node(
+          "td",
+          value === entity.id ? "id-link" : "",
+          value
+        )
+      );
+    }
 
-  notes.forEach(n => {
-    const card = document.createElement("article");
-    card.className = "saved-note";
+    const td = node("td");
 
-    const meta = document.createElement("div");
-    meta.className = "note-meta";
-    meta.textContent = `${n.record || "GENERAL"} · ${n.created}`;
+    const button = node(
+      "button",
+      "",
+      "Inspect sources →"
+    );
 
-    const p = document.createElement("p");
-    p.textContent = n.text;
-
-    const del = document.createElement("button");
-    del.className = "note-delete";
-    del.textContent = "Delete note";
-
-    del.addEventListener("click", () => {
-      notes = notes.filter(x => x.id !== n.id);
-      saveNotes();
-      renderNotes();
-      renderSummary();
+    button.addEventListener("click", () => {
+      activeEntity = entity.id;
+      navigate("associations");
     });
 
-    card.append(meta, p, del);
-    list.append(card);
-  });
+    td.append(button);
+    tr.append(td);
+    tbody.append(tr);
+  }
 }
 
-// Save a new analyst observation.
-$("#saveNote").addEventListener("click", () => {
-  const value = $("#noteText").value.trim();
+// EVENT TIMELINE
 
-  if (!value) {
-    $("#saveStatus").textContent =
-      "Write an observation before saving.";
-    return;
-  }
+function renderTimeline() {
+  const container = $("timelineItems");
+  container.replaceChildren();
 
-  notes.unshift({
-    id: Date.now() + Math.random(),
-    record: $("#noteRecord").value,
-    text: value,
-    created: new Date().toLocaleString()
-  });
-
-  if (!saveNotes()) {
-    $("#saveStatus").textContent =
-      "Browser storage is unavailable; this note may not persist.";
-  } else {
-    $("#saveStatus").textContent =
-      "Observation saved on this device.";
-  }
-
-  $("#noteText").value = "";
-  $("#noteRecord").value = "";
-
-  renderNotes();
-  renderSummary();
-});
-
-// Export the fictional case records as CSV.
-$("#exportBtn").addEventListener("click", () => {
-  const columns = [
-    "id", "date", "time", "type",
-    "area", "people", "summary", "source"
-  ];
-
-  const csv = [
-    columns.join(","),
-    ...records.map(r =>
-      columns.map(k =>
-        '"' + String(r[k]).replaceAll('"', '""') + '"'
-      ).join(",")
-    )
-  ].join("\r\n");
-
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(
-    new Blob([csv], { type: "text/csv;charset=utf-8" })
+  const chronological = [...records].sort(
+    (a, b) =>
+      a.date.localeCompare(b.date) ||
+      a.id.localeCompare(b.id)
   );
 
-  link.href = url;
-  link.download = "CW-026-fictional-incident-records.csv";
-  link.click();
+  for (const r of chronological) {
+    const article = node("article", "event");
+    const date = node(
+      "time",
+      "",
+      formatDate(r.date)
+    );
 
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-});
+    date.dateTime = r.date;
 
-// Initialize application.
-function init() {
-  for (const type of distinct("type")) {
-    $("#typeFilter").add(new Option(type, type));
+    const content = node("div");
+
+    content.append(
+      node("h4", "", `${r.id} / ${r.type}`),
+      node("p", "", r.summary)
+    );
+
+    const button = node(
+      "button",
+      "",
+      "Inspect source →"
+    );
+
+    button.addEventListener(
+      "click",
+      () => openRecord(r.id)
+    );
+
+    content.append(button);
+    article.append(date, content);
+    container.append(article);
+  }
+}
+
+// SVG HELPER FOR ASSOCIATION NETWORK
+
+function svgEl(tag, attributes = {}, text) {
+  const el = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    tag
+  );
+
+  for (const [key, value] of Object.entries(attributes)) {
+    el.setAttribute(key, String(value));
   }
 
-  for (const area of distinct("area")) {
-    $("#areaFilter").add(new Option(area, area));
+  if (text !== undefined) {
+    el.textContent = text;
   }
 
-  for (const r of [...records].reverse()) {
-    $("#noteRecord").add(
-      new Option(`${r.id} — ${r.type}`, r.id)
+  return el;
+}
+
+// INTERACTIVE ASSOCIATION REVIEW
+
+function renderNetwork() {
+  const net = $("network");
+  net.replaceChildren();
+
+  const svg = svgEl("svg", {
+    viewBox: "0 0 600 350",
+    role: "img",
+    "aria-label": "Selectable entity relationship overview based on report co-references"
+  });
+
+  const locations = {
+    "P-01": [120, 128],
+    "P-02": [470, 128],
+    "G-01": [295, 62],
+    "D-01": [295, 248]
+  };
+
+  const edges = [
+    ["P-01", "P-02"],
+    ["P-01", "G-01"],
+    ["P-02", "G-01"],
+    ["P-01", "D-01"],
+    ["P-02", "D-01"],
+    ["G-01", "D-01"]
+  ];
+
+  for (const [a, b] of edges) {
+    const [x1, y1] = locations[a];
+    const [x2, y2] = locations[b];
+
+    svg.append(
+      svgEl("line", {
+        x1,
+        y1,
+        x2,
+        y2,
+        stroke: "#a7bbca",
+        "stroke-width": 2
+      })
     );
   }
 
-  renderSummary();
-  renderRecords();
+  for (const entity of entities) {
+    const [x, y] = locations[entity.id];
+    const selected = entity.id === activeEntity;
+
+    const group = svgEl("g", {
+      role: "button",
+      tabindex: "0",
+      "aria-label": `Inspect ${entity.id}`
+    });
+
+    let colors;
+
+    if (entity.id.startsWith("P")) {
+      colors = ["#102c47", "#fff"];
+    } else if (entity.id.startsWith("G")) {
+      colors = ["#facd52", "#1d3c51"];
+    } else {
+      colors = ["#dbeaf1", "#14384d"];
+    }
+
+    group.append(
+      svgEl("rect", {
+        x: x - 67,
+        y: y - 23,
+        width: 134,
+        height: 46,
+        rx: 2,
+        fill: colors[0],
+        stroke: selected ? "#0b7db3" : "#8396a6",
+        "stroke-width": selected ? 4 : 1
+      })
+    );
+
+    group.append(
+      svgEl(
+        "text",
+        {
+          x,
+          y: y + 4,
+          "text-anchor": "middle",
+          fill: colors[1],
+          "font-size": 14,
+          "font-weight": "bold"
+        },
+        entity.id
+      )
+    );
+
+    group.addEventListener("click", () => {
+      activeEntity = entity.id;
+      renderNetwork();
+    });
+
+    group.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activeEntity = entity.id;
+        renderNetwork();
+      }
+    });
+
+    svg.append(group);
+  }
+
+  net.append(svg);
+
+  const entity = entities.find(
+    x => x.id === activeEntity
+  );
+
+  $("networkTitle").textContent =
+    `${entity.id} / ${entity.kind}`;
+
+  $("networkDescription").textContent =
+    entity.summary;
+
+  const sourceList = $("networkSources");
+  sourceList.replaceChildren();
+
+  const linked = records.filter(
+    r => r.refs.includes(entity.id)
+  );
+
+  for (const r of linked) {
+    const wrap = node("div");
+
+    const heading = node(
+      "strong",
+      "",
+      `${r.id} · ${r.type}`
+    );
+
+    const details = node(
+      "p",
+      "body-small",
+      r.summary
+    );
+
+    const button = node(
+      "button",
+      "",
+      "Inspect source →"
+    );
+
+    button.addEventListener(
+      "click",
+      () => openRecord(r.id)
+    );
+
+    wrap.append(heading, details, button);
+    sourceList.append(wrap);
+  }
+}
+
+// SAVED ANALYTIC FINDINGS
+
+function renderFindings() {
+  const list = $("findingList");
+  list.replaceChildren();
+
+  if (!state.findings.length) {
+    list.append(
+      node(
+        "p",
+        "empty-copy",
+        "No findings recorded. Create a finding and link it to a source report."
+      )
+    );
+    return;
+  }
+
+  for (const finding of state.findings) {
+    const card = node("article", "finding-card");
+
+    const title = node(
+      "strong",
+      "",
+      finding.title
+    );
+
+    const meta = node(
+      "small",
+      "",
+      `${finding.source} / CONFIDENCE: ${finding.confidence}`
+    );
+
+    const description = node(
+      "p",
+      "",
+      finding.text
+    );
+
+    const deleteButton = node(
+      "button",
+      "",
+      "Delete finding"
+    );
+
+    deleteButton.addEventListener("click", () => {
+      state.findings = state.findings.filter(
+        x => x.id !== finding.id
+      );
+
+      save();
+      renderFindings();
+      renderSources();
+    });
+
+    card.append(
+      title,
+      meta,
+      description,
+      deleteButton
+    );
+
+    list.append(card);
+  }
+}
+
+// FINAL BRIEF SUPPORTING EVIDENCE
+
+function renderEvidence() {
+  const container = $("briefEvidence");
+  container.replaceChildren();
+
+  container.append(
+    node(
+      "p",
+      "body-small",
+      `${reviewedCount()} of ${records.length} source reports reviewed. ${state.findings.length} findings saved.`
+    )
+  );
+
+  if (!state.findings.length) {
+    container.append(
+      node(
+        "p",
+        "empty-copy",
+        "No supported findings added yet."
+      )
+    );
+    return;
+  }
+
+  for (const finding of state.findings) {
+    const card = node("div", "finding-card");
+
+    const title = node(
+      "strong",
+      "",
+      finding.title
+    );
+
+    const meta = node(
+      "small",
+      "",
+      `${finding.source} / ${finding.confidence} confidence`
+    );
+
+    card.append(title, meta);
+    container.append(card);
+  }
+}
+
+// PRINTABLE INTELLIGENCE BRIEF
+
+function preparePrint() {
+  const root = $("printDocument");
+  root.replaceChildren();
+
+  root.append(
+    node(
+      "div",
+      "print-warning",
+      "TRAINING / UNCLASSIFIED / ALL RECORDS FICTIONAL — NOT AN OFFICIAL INTELLIGENCE REPORT"
+    ),
+    node(
+      "h1",
+      "",
+      "Training Case Intelligence Brief"
+    ),
+    node(
+      "p",
+      "",
+      "Case CR-2026-014 · Security Threat Group Communication Review"
+    ),
+    node(
+      "h2",
+      "",
+      "1. Case scope"
+    ),
+    node(
+      "p",
+      "",
+      `${records.length} fictional reports; ${reviewedCount()} marked reviewed. Entity markers represent unverified references only.`
+    ),
+    node(
+      "h2",
+      "",
+      "2. Analyst assessment"
+    ),
+    node(
+      "p",
+      "",
+      state.brief.trim() ||
+      "No assessment draft entered."
+    ),
+    node(
+      "h2",
+      "",
+      "3. Source-supported findings"
+    )
+  );
+
+  if (!state.findings.length) {
+    root.append(
+      node("p", "", "No findings recorded.")
+    );
+  }
+
+  for (const finding of state.findings) {
+    const item = node("div", "print-item");
+
+    item.append(
+      node(
+        "h3",
+        "",
+        `${finding.title} — ${finding.source} (${finding.confidence})`
+      ),
+      node(
+        "p",
+        "",
+        finding.text
+      )
+    );
+
+    root.append(item);
+  }
+
+  root.append(
+    node(
+      "h2",
+      "",
+      "4. Source limitations"
+    ),
+    node(
+      "p",
+      "",
+      "The entire exercise is fictional. Co-reference does not establish affiliation, communication, misconduct, or intent. Claims requiring corroboration must remain labeled as such."
+    )
+  );
+
+  window.print();
+}
+
+// APPLICATION INITIALIZATION
+
+function init() {
+  // Navigation events
+
+  document.addEventListener("click", e => {
+    const navigationButton = e.target.closest(
+      "[data-view]"
+    );
+
+    if (navigationButton) {
+      navigate(navigationButton.dataset.view);
+    }
+
+    if (e.target.closest("[data-close]")) {
+      closeRecord();
+    }
+  });
+
+  // Source filters
+
+  $("searchReports").addEventListener(
+    "input",
+    renderSources
+  );
+
+  $("relevanceFilter").addEventListener(
+    "change",
+    renderSources
+  );
+
+  // Record drawer
+
+  $("closeRecord").addEventListener(
+    "click",
+    closeRecord
+  );
+
+  document.addEventListener("keydown", e => {
+    if (
+      e.key === "Escape" &&
+      !$("recordOverlay").hidden
+    ) {
+      closeRecord();
+    }
+  });
+
+  $("saveReview").addEventListener(
+    "click",
+    saveReview
+  );
+
+  // Create a finding from a source record
+
+  $("recordToFinding").addEventListener(
+    "click",
+    () => {
+      const id = activeRecord?.id;
+
+      closeRecord();
+      navigate("findings");
+
+      $("findingSource").value =
+        id || records[0].id;
+
+      $("findingTitle").focus();
+    }
+  );
+
+  // Populate supporting report selector
+
+  for (const r of records) {
+    $("findingSource").append(
+      new Option(
+        `${r.id} / ${r.type}`,
+        r.id
+      )
+    );
+  }
+
+  // Save findings
+
+  $("findingForm").addEventListener(
+    "submit",
+    e => {
+      e.preventDefault();
+
+      const title =
+        $("findingTitle").value.trim();
+
+      const body =
+        $("findingText").value.trim();
+
+      if (!title || !body) return;
+
+      state.findings.push({
+        id: `f-${Date.now()}-${Math.random()}`,
+        title,
+        text: body,
+        source: $("findingSource").value,
+        confidence: $("findingConfidence").value
+      });
+
+      const successful = save();
+
+      $("findingStatus").textContent = successful
+        ? "Finding saved to this browser."
+        : "Finding added for this session; local storage is unavailable.";
+
+      $("findingTitle").value = "";
+      $("findingText").value = "";
+
+      renderFindings();
+      renderSources();
+    }
+  );
+
+  // Draft intelligence brief
+
+  $("briefText").value = state.brief;
+
+  $("saveBrief").addEventListener(
+    "click",
+    () => {
+      state.brief = $("briefText").value;
+
+      $("briefStatus").textContent = save()
+        ? "Draft saved in this browser."
+        : "Draft updated for this session; browser storage unavailable.";
+    }
+  );
+
+  // Print or save as PDF
+
+  $("printBrief").addEventListener(
+    "click",
+    () => {
+      state.brief = $("briefText").value;
+      save();
+      preparePrint();
+    }
+  );
+
+  // Initial render
+
+  renderSources();
+  renderEntities();
   renderTimeline();
-  renderNotes();
+  renderFindings();
+  renderNetwork();
+
+  navigate("sources");
 }
 
 init();
