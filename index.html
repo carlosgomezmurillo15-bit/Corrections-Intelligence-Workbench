@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A fictional corrections intelligence case analysis training prototype.">
+  <title>Casework | Intelligence Analysis Workbench</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">CI</div>
+        <div>
+          <strong>CASEWORK</strong>
+          <small>Analysis workbench</small>
+        </div>
+      </div>
+
+      <div class="side-label">WORKSPACE</div>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-link active" data-page="overview">
+          <span>▦</span> Overview
+        </button>
+        <button class="nav-link" data-page="records">
+          <span>▤</span> Incident records
+        </button>
+        <button class="nav-link" data-page="timeline">
+          <span>◷</span> Timeline
+        </button>
+        <button class="nav-link" data-page="notebook">
+          <span>▧</span> Analyst notebook
+        </button>
+      </nav>
+
+      <div class="side-bottom">
+        <div class="status-dot"></div>
+        <strong>TRAINING ENVIRONMENT</strong>
+        <p>Fictional case data only. Not an agency system.</p>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div class="crumb">
+          CASEWORK <span>/</span>
+          <span id="breadcrumb">Overview</span>
+        </div>
+        <div class="top-right">
+          <span class="case-tag">CASE CW-026</span>
+          <span class="avatar" aria-hidden="true">AN</span>
+        </div>
+      </header>
+
+      <main>
+        <!-- OVERVIEW -->
+        <section class="page active" id="overview">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">ACTIVE TRAINING CASE / CW-026</div>
+              <h1>Case overview</h1>
+              <p>Review incident activity, identify repeat patterns, and document findings.</p>
+            </div>
+            <button class="button secondary" id="exportBtn">
+              Export records (.csv)
+            </button>
+          </div>
+
+          <div class="warning">
+            <strong>Simulation notice</strong>
+            All names, locations, incidents, and associations in this case are fictional.
+          </div>
+
+          <div class="metrics">
+            <article class="metric">
+              <span>INCIDENT RECORDS</span>
+              <strong id="metricTotal">—</strong>
+              <small>Across the training case</small>
+            </article>
+            <article class="metric">
+              <span>LOCATION AREAS</span>
+              <strong id="metricAreas">—</strong>
+              <small>Distinct facility locations</small>
+            </article>
+            <article class="metric">
+              <span>PERSONS REFERENCED</span>
+              <strong id="metricPeople">—</strong>
+              <small>Fictional identifiers</small>
+            </article>
+            <article class="metric">
+              <span>SAVED ANALYST NOTES</span>
+              <strong id="metricNotes">—</strong>
+              <small>Stored in this browser</small>
+            </article>
+          </div>
+
+          <div class="columns">
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Incident distribution</h2>
+                  <p>Records grouped by incident classification</p>
+                </div>
+              </div>
+              <div id="typeChart" class="chart-bars"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Activity by location</h2>
+                  <p>Most frequently referenced facility areas</p>
+                </div>
+              </div>
+              <div id="areaChart" class="location-list"></div>
+            </article>
+          </div>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Recent reports</h2>
+                <p>Latest five entries in the case file</p>
+              </div>
+              <button class="text-action" data-go="records">
+                View all records →
+              </button>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>RECORD</th>
+                    <th>DATE / TIME</th>
+                    <th>CLASSIFICATION</th>
+                    <th>LOCATION</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="recentRows"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- INCIDENT RECORDS -->
+        <section class="page" id="records">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">CASE CW-026 / SOURCE REVIEW</div>
+              <h1>Incident records</h1>
+              <p>Filter the source material before drawing conclusions.</p>
+            </div>
+            <span class="result-count" id="resultCount"></span>
+          </div>
+
+          <article class="panel">
+            <div class="filters">
+              <label class="search">
+                <span>⌕</span>
+                <input
+                  id="searchInput"
+                  type="search"
+                  placeholder="Search ID, person, detail, or area..."
+                  aria-label="Search incident records"
+                >
+              </label>
+
+              <select id="typeFilter" aria-label="Filter by incident type">
+                <option value="">All classifications</option>
+              </select>
+
+              <select id="areaFilter" aria-label="Filter by location">
+                <option value="">All locations</option>
+              </select>
+
+              <button class="button secondary" id="clearFilters">
+                Reset
+              </button>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>RECORD</th>
+                    <th>DATE / TIME</th>
+                    <th>CLASSIFICATION</th>
+                    <th>LOCATION</th>
+                    <th>SOURCE</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="recordRows"></tbody>
+              </table>
+            </div>
+
+            <div class="empty" id="noResults" hidden>
+              No records match the selected filters.
+            </div>
+          </article>
+        </section>
+
+        <!-- TIMELINE -->
+        <section class="page" id="timeline">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">CASE CW-026 / CHRONOLOGY</div>
+              <h1>Incident timeline</h1>
+              <p>Review events in date order and open their source records.</p>
+            </div>
+          </div>
+
+          <div class="timeline" id="timelineItems"></div>
+        </section>
+
+        <!-- ANALYST NOTEBOOK -->
+        <section class="page" id="notebook">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">CASE CW-026 / WORKING NOTES</div>
+              <h1>Analyst notebook</h1>
+              <p>Record observations without treating them as verified findings.</p>
+            </div>
+          </div>
+
+          <div class="columns notebook-columns">
+            <article class="panel note-form">
+              <div class="panel-heading">
+                <div>
+                  <h2>New observation</h2>
+                  <p>Keep analysis separate from source records.</p>
+                </div>
+              </div>
+
+              <label for="noteRecord">Related source record</label>
+              <select id="noteRecord">
+                <option value="">General observation — no linked record</option>
+              </select>
+
+              <label for="noteText">Observation or question</label>
+              <textarea
+                id="noteText"
+                rows="7"
+                maxlength="1500"
+                placeholder="What did you notice? Which detail needs verification?"
+              ></textarea>
+
+              <p class="help">
+                Notes are stored only on this device using browser storage.
+                Do not enter sensitive information.
+              </p>
+
+              <button class="button primary" id="saveNote">
+                Save observation
+              </button>
+              <p class="save-status" id="saveStatus" role="status"></p>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Saved observations</h2>
+                  <p id="notesCount">0 saved notes</p>
+                </div>
+              </div>
+              <div id="savedNotes" class="saved-notes"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        CASEWORK · CMPA CAPSTONE PROTOTYPE
+        <span>TRAINING DATA / NOT FOR OPERATIONAL USE</span>
+      </footer>
+    </div>
+  </div>
+
+  <!-- INCIDENT DETAIL DIALOG -->
+  <div class="modal-backdrop" id="modal" hidden>
+    <section
+      class="detail-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="detailTitle"
+    >
+      <div class="modal-top">
+        <span class="eyebrow">SOURCE RECORD</span>
+        <button class="icon-button" id="closeModal" aria-label="Close record">
+          ×
+        </button>
+      </div>
+
+      <h2 id="detailTitle"></h2>
+      <div class="detail-grid" id="detailGrid"></div>
+
+      <h3>Incident summary</h3>
+      <p id="detailSummary"></p>
+
+      <div class="detail-footer">
+        <span>Fictional training report · Not independently verified</span>
+        <button class="button primary" id="addRecordNote">
+          Add note about this record
+        </button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
