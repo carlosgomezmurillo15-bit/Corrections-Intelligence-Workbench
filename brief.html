@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intelligence Brief | Corrections Intelligence Workbench</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="brief">
+  <aside class="sidebar" id="sidebar">
+    <div class="agency-mark">
+      <span class="seal">CI</span>
+      <div><strong>Corrections Intelligence</strong><small>Analytical Workbench</small></div>
+    </div>
+
+    <div class="case-selector">
+      <span>ACTIVE CASE</span>
+      <strong>CR-2026-014</strong>
+      <small>Communication Review</small>
+    </div>
+
+    <nav class="primary-nav">
+      <a class="nav-link" data-nav="overview" href="index.html"><span>01</span><div>Case Overview<small>Tasking and status</small></div></a>
+      <a class="nav-link" data-nav="reports" href="reports.html"><span>02</span><div>Source Reporting<small>Evaluate collected records</small></div></a>
+      <a class="nav-link" data-nav="analysis" href="analysis.html"><span>03</span><div>Analytical Workspace<small>Links, timeline, hypotheses</small></div></a>
+      <a class="nav-link" data-nav="brief" href="brief.html"><span>04</span><div>Intelligence Brief<small>Judgments and gaps</small></div></a>
+    </nav>
+
+    <div class="sidebar-status">
+      <div><span>CASE PROGRESS</span><strong id="sidebarProgress">0%</strong></div>
+      <div class="progress-track"><span id="sidebarProgressBar"></span></div>
+      <small>Saved only in this browser</small>
+    </div>
+
+    <div class="classification">UNCLASSIFIED // TRAINING</div>
+  </aside>
+
+  <div class="app-shell">
+    <header class="utility-bar">
+      <button class="menu-button" id="menuButton" type="button">Menu</button>
+      <div>
+        <span class="breadcrumb">CASEWORK / CR-2026-014 / BRIEF</span>
+        <strong>Intelligence Brief</strong>
+      </div>
+      <div class="utility-actions">
+        <span class="system-status"><i></i> Draft product</span>
+        <button class="text-button" id="printBrief" type="button">Print / save PDF</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="case-heading compact-heading">
+        <div>
+          <span class="kicker">ANALYTICAL PRODUCT</span>
+          <h1>Communication activity assessment</h1>
+          <p>Turn reviewed reporting and structured analysis into a short, defensible intelligence product.</p>
+        </div>
+        <div class="case-flags">
+          <span class="flag">PRODUCT: INTELLIGENCE NOTE</span>
+          <span class="flag">STATUS: DRAFT</span>
+        </div>
+      </section>
+
+      <div class="brief-layout">
+        <form class="brief-document" id="briefForm">
+          <div class="brief-masthead">
+            <span>UNCLASSIFIED // TRAINING</span>
+            <strong>CORRECTIONS INTELLIGENCE NOTE</strong>
+            <span>CR-2026-014</span>
+          </div>
+
+          <div class="brief-title-block">
+            <label>
+              Product title
+              <input id="briefTitle" value="Assessment of Possible Coordinated Communication Activity">
+            </label>
+
+            <div class="brief-meta">
+              <span>Prepared by: Student Analyst</span>
+              <span>Date: 19 November 2026</span>
+              <span>Version: Draft 1</span>
+            </div>
+          </div>
+
+          <section class="brief-section bluf-section">
+            <span class="brief-number">01</span>
+            <div>
+              <label>
+                Bottom line up front
+                <textarea id="briefBluf" rows="5" placeholder="State the most important judgment first. Explain what is supported, your confidence, and the main limitation."></textarea>
+              </label>
+              <p class="writing-prompt">A reader should understand the assessment without reading the entire product.</p>
+            </div>
+          </section>
+
+          <section class="brief-section">
+            <span class="brief-number">02</span>
+            <div>
+              <label>
+                Key judgments
+                <textarea id="briefJudgments" rows="7" placeholder="• Judgment one&#10;• Judgment two&#10;• Judgment three"></textarea>
+              </label>
+              <p class="writing-prompt">Each judgment should be traceable to reviewed reporting or a saved analytical finding.</p>
+            </div>
+          </section>
+
+          <section class="brief-section">
+            <span class="brief-number">03</span>
+            <div class="brief-field-grid">
+              <label>
+                Overall confidence
+                <select id="briefConfidence">
+                  <option value="">Select level</option>
+                  <option>Low confidence</option>
+                  <option>Moderate confidence</option>
+                  <option>High confidence</option>
+                </select>
+              </label>
+
+              <label>
+                Primary alternative
+                <select id="briefAlternative">
+                  <option value="">Select explanation</option>
+                  <option>Routine institutional overlap</option>
+                  <option>Third-party or unknown explanation</option>
+                  <option>Coordinated activity</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="brief-section">
+            <span class="brief-number">04</span>
+            <div>
+              <label>
+                Intelligence gaps
+                <textarea id="briefGaps" rows="5" placeholder="List the missing information that limits the assessment."></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="brief-section">
+            <span class="brief-number">05</span>
+            <div>
+              <label>
+                Recommended collection or follow-up
+                <textarea id="briefRecommendations" rows="5" placeholder="Identify lawful, proportionate next steps that address the stated gaps."></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="brief-section source-note">
+            <span class="brief-number">06</span>
+            <div>
+              <h2>Source note</h2>
+              <p>This training assessment is based on eight fictional reports dated 10–12 November 2026. Source citations should use RPT-014-01 through RPT-014-08.</p>
+            </div>
+          </section>
+
+          <footer class="brief-footer">
+            <span>UNCLASSIFIED // TRAINING</span>
+            <span>Page 1 of 1</span>
+          </footer>
+        </form>
+
+        <aside class="brief-review-column">
+          <section class="panel sticky-review">
+            <header class="panel-header">
+              <div><span class="section-code">QUALITY CONTROL</span><h2>Product review</h2></div>
+              <strong id="briefCompletion">0%</strong>
+            </header>
+
+            <div class="panel-body compact-body">
+              <ul class="qc-list" id="qcList">
+                <li data-field="briefBluf"><i></i>Bottom line completed</li>
+                <li data-field="briefJudgments"><i></i>Key judgments completed</li>
+                <li data-field="briefConfidence"><i></i>Confidence stated</li>
+                <li data-field="briefAlternative"><i></i>Alternative considered</li>
+                <li data-field="briefGaps"><i></i>Information gaps listed</li>
+                <li data-field="briefRecommendations"><i></i>Next steps identified</li>
+              </ul>
+
+              <div class="saved-findings-summary">
+                <span class="field-caption">SAVED FINDINGS</span>
+                <div id="briefFindingSummary">
+                  <p>No analytical findings saved yet.</p>
+                </div>
+              </div>
+
+              <button class="primary-button full-button" id="saveBrief" type="button">Save draft brief</button>
+              <p class="storage-note">The draft stays in this browser. Use Print / save PDF for a submission copy.</p>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
