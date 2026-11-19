@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source Reporting | Corrections Intelligence Workbench</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="reports">
+  <aside class="sidebar" id="sidebar">
+    <div class="agency-mark">
+      <span class="seal">CI</span>
+      <div><strong>Corrections Intelligence</strong><small>Analytical Workbench</small></div>
+    </div>
+
+    <div class="case-selector">
+      <span>ACTIVE CASE</span>
+      <strong>CR-2026-014</strong>
+      <small>Communication Review</small>
+    </div>
+
+    <nav class="primary-nav">
+      <a class="nav-link" data-nav="overview" href="index.html"><span>01</span><div>Case Overview<small>Tasking and status</small></div></a>
+      <a class="nav-link" data-nav="reports" href="reports.html"><span>02</span><div>Source Reporting<small>Evaluate collected records</small></div></a>
+      <a class="nav-link" data-nav="analysis" href="analysis.html"><span>03</span><div>Analytical Workspace<small>Links, timeline, hypotheses</small></div></a>
+      <a class="nav-link" data-nav="brief" href="brief.html"><span>04</span><div>Intelligence Brief<small>Judgments and gaps</small></div></a>
+    </nav>
+
+    <div class="sidebar-status">
+      <div><span>CASE PROGRESS</span><strong id="sidebarProgress">0%</strong></div>
+      <div class="progress-track"><span id="sidebarProgressBar"></span></div>
+      <small>Saved only in this browser</small>
+    </div>
+
+    <div class="classification">UNCLASSIFIED // TRAINING</div>
+  </aside>
+
+  <div class="app-shell">
+    <header class="utility-bar">
+      <button class="menu-button" id="menuButton" type="button">Menu</button>
+      <div>
+        <span class="breadcrumb">CASEWORK / CR-2026-014 / REPORTING</span>
+        <strong>Source Reporting</strong>
+      </div>
+      <div class="utility-actions">
+        <span class="system-status"><i></i> 8 records loaded</span>
+        <a class="text-button" href="analysis.html">Continue to analysis</a>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="case-heading compact-heading">
+        <div>
+          <span class="kicker">COLLECTION REGISTER</span>
+          <h1>Source reporting and evaluation</h1>
+          <p>Inspect each record, distinguish reported facts from interpretation, and document how much analytical weight it should carry.</p>
+        </div>
+        <div class="case-flags">
+          <span class="flag">DATE RANGE: 10–12 NOV</span>
+          <span class="flag">RECORDS: 08</span>
+        </div>
+      </section>
+
+      <section class="reporting-layout">
+        <div class="panel report-register">
+          <div class="register-toolbar">
+            <label class="search-control">
+              <span>Search</span>
+              <input id="reportSearch" type="search" placeholder="Report ID, type, entity, or keyword">
+            </label>
+
+            <label>
+              <span>Relevance</span>
+              <select id="relevanceFilter">
+                <option value="ALL">All levels</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Review state</span>
+              <select id="reviewFilter">
+                <option value="ALL">All records</option>
+                <option value="OPEN">Needs review</option>
+                <option value="REVIEWED">Reviewed</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table report-table">
+              <thead>
+                <tr>
+                  <th>Record</th>
+                  <th>Date</th>
+                  <th>Reporting type</th>
+                  <th>References</th>
+                  <th>Relevance</th>
+                  <th>State</th>
+                </tr>
+              </thead>
+              <tbody id="reportTableBody"></tbody>
+            </table>
+          </div>
+
+          <footer class="register-footer">
+            <span id="reportCount">Showing 8 records</span>
+            <span>Select a row to open the report review</span>
+          </footer>
+        </div>
+
+        <aside class="panel evaluation-reference">
+          <header class="panel-header">
+            <div>
+              <span class="section-code">REFERENCE</span>
+              <h2>Evaluation guide</h2>
+            </div>
+          </header>
+
+          <div class="panel-body compact-body">
+            <div class="reference-block">
+              <strong>Source reliability</strong>
+              <p>How consistently has the reporting source provided accurate information?</p>
+              <div class="rating-key">
+                <span>A</span>Reliable
+                <span>B</span>Usually reliable
+                <span>C</span>Unknown
+              </div>
+            </div>
+
+            <div class="reference-block">
+              <strong>Information credibility</strong>
+              <p>How well is this specific information corroborated by other reporting?</p>
+              <div class="rating-key">
+                <span>1</span>Confirmed
+                <span>2</span>Probably true
+                <span>3</span>Possibly true
+              </div>
+            </div>
+
+            <div class="reference-block caution-block">
+              <strong>Analyst reminder</strong>
+              <p>A report can be relevant without proving a conclusion. Record limitations before using it in a finding.</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+  <aside class="report-drawer" id="reportDrawer" aria-hidden="true">
+    <header>
+      <div>
+        <span>REPORT REVIEW</span>
+        <h2 id="drawerReportId">RPT-014-01</h2>
+      </div>
+      <button id="closeDrawer" type="button">Close</button>
+    </header>
+
+    <div class="drawer-scroll">
+      <div class="report-metadata" id="drawerMetadata"></div>
+
+      <section>
+        <span class="field-caption">REPORT SUMMARY</span>
+        <p id="drawerSummary"></p>
+      </section>
+
+      <section>
+        <span class="field-caption">ANALYTICAL VALUE</span>
+        <p id="drawerValue"></p>
+      </section>
+
+      <section>
+        <span class="field-caption">LIMITATIONS</span>
+        <p id="drawerLimitations"></p>
+      </section>
+
+      <section>
+        <span class="field-caption">ANALYST EVALUATION</span>
+
+        <div class="form-grid two-column">
+          <label>
+            Source reliability
+            <select id="sourceReliability">
+              <option value="">Select</option>
+              <option>A — Reliable</option>
+              <option>B — Usually reliable</option>
+              <option>C — Reliability unknown</option>
+            </select>
+          </label>
+
+          <label>
+            Information credibility
+            <select id="informationCredibility">
+              <option value="">Select</option>
+              <option>1 — Confirmed</option>
+              <option>2 — Probably true</option>
+              <option>3 — Possibly true</option>
+              <option>4 — Doubtful</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="full-field">
+          Analyst note
+          <textarea id="reportNote" rows="4" placeholder="What does this report contribute, and what can it not establish?"></textarea>
+        </label>
+      </section>
+    </div>
+
+    <footer>
+      <button class="secondary-button" id="copyCitation" type="button">Copy report citation</button>
+      <button class="primary-button" id="saveReportReview" type="button">Save review</button>
+    </footer>
+  </aside>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
