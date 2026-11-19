@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytical Workspace | Corrections Intelligence Workbench</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="analysis">
+  <aside class="sidebar" id="sidebar">
+    <div class="agency-mark">
+      <span class="seal">CI</span>
+      <div><strong>Corrections Intelligence</strong><small>Analytical Workbench</small></div>
+    </div>
+
+    <div class="case-selector">
+      <span>ACTIVE CASE</span>
+      <strong>CR-2026-014</strong>
+      <small>Communication Review</small>
+    </div>
+
+    <nav class="primary-nav">
+      <a class="nav-link" data-nav="overview" href="index.html"><span>01</span><div>Case Overview<small>Tasking and status</small></div></a>
+      <a class="nav-link" data-nav="reports" href="reports.html"><span>02</span><div>Source Reporting<small>Evaluate collected records</small></div></a>
+      <a class="nav-link" data-nav="analysis" href="analysis.html"><span>03</span><div>Analytical Workspace<small>Links, timeline, hypotheses</small></div></a>
+      <a class="nav-link" data-nav="brief" href="brief.html"><span>04</span><div>Intelligence Brief<small>Judgments and gaps</small></div></a>
+    </nav>
+
+    <div class="sidebar-status">
+      <div><span>CASE PROGRESS</span><strong id="sidebarProgress">0%</strong></div>
+      <div class="progress-track"><span id="sidebarProgressBar"></span></div>
+      <small>Saved only in this browser</small>
+    </div>
+
+    <div class="classification">UNCLASSIFIED // TRAINING</div>
+  </aside>
+
+  <div class="app-shell">
+    <header class="utility-bar">
+      <button class="menu-button" id="menuButton" type="button">Menu</button>
+      <div>
+        <span class="breadcrumb">CASEWORK / CR-2026-014 / ANALYSIS</span>
+        <strong>Analytical Workspace</strong>
+      </div>
+      <div class="utility-actions">
+        <span class="system-status"><i></i> Working assessment</span>
+        <a class="text-button" href="brief.html">Open brief</a>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="case-heading compact-heading">
+        <div>
+          <span class="kicker">STRUCTURED ANALYSIS</span>
+          <h1>Relationships, chronology, and alternatives</h1>
+          <p>Use the reporting to test what is supported, what is only possible, and what additional information would change the assessment.</p>
+        </div>
+        <div class="case-flags">
+          <span class="flag">STANDARD: SOURCE-LINKED</span>
+          <span class="flag">CONFIDENCE: NOT SET</span>
+        </div>
+      </section>
+
+      <nav class="section-jump">
+        <a href="#entities">Entity register</a>
+        <a href="#relationships">Relationship view</a>
+        <a href="#timeline">Event timeline</a>
+        <a href="#hypotheses">Hypotheses</a>
+        <a href="#findings">Findings</a>
+      </nav>
+
+      <section class="panel analysis-section" id="entities">
+        <header class="panel-header">
+          <div><span class="section-code">AN-01</span><h2>Entity register</h2></div>
+          <span class="status-chip slate">4 INDEXED</span>
+        </header>
+
+        <div class="table-wrap">
+          <table class="data-table entity-table">
+            <thead>
+              <tr>
+                <th>Identifier</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Connected reports</th>
+                <th>Assessment status</th>
+              </tr>
+            </thead>
+            <tbody id="entityTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel analysis-section" id="relationships">
+        <header class="panel-header">
+          <div><span class="section-code">AN-02</span><h2>Relationship view</h2></div>
+          <div class="legend">
+            <span><i class="node-person"></i>Person</span>
+            <span><i class="node-object"></i>Reference</span>
+            <span><i class="edge-line"></i>Reported connection</span>
+          </div>
+        </header>
+
+        <div class="network-layout">
+          <div class="network-canvas">
+            <svg viewBox="0 0 900 430" role="img">
+              <g class="network-lines">
+                <line x1="245" y1="130" x2="655" y2="130"></line>
+                <line x1="245" y1="130" x2="450" y2="325"></line>
+                <line x1="655" y1="130" x2="450" y2="325"></line>
+                <line x1="245" y1="130" x2="110" y2="325"></line>
+                <line x1="655" y1="130" x2="790" y2="325"></line>
+              </g>
+
+              <g class="edge-labels">
+                <text x="450" y="113">RPT-01 / RPT-04</text>
+                <text x="320" y="235">RPT-03</text>
+                <text x="570" y="235">RPT-02</text>
+                <text x="147" y="235">RPT-06 / RPT-08</text>
+                <text x="695" y="235">RPT-05</text>
+              </g>
+
+              <g class="network-node person-node">
+                <circle cx="245" cy="130" r="57"></circle>
+                <text x="245" y="125">P-01</text>
+                <text class="node-sub" x="245" y="146">PERSON</text>
+              </g>
+
+              <g class="network-node person-node">
+                <circle cx="655" cy="130" r="57"></circle>
+                <text x="655" y="125">P-02</text>
+                <text class="node-sub" x="655" y="146">PERSON</text>
+              </g>
+
+              <g class="network-node ref-node">
+                <rect x="383" y="280" width="134" height="90" rx="8"></rect>
+                <text x="450" y="322">D-01</text>
+                <text class="node-sub" x="450" y="344">DEVICE REF.</text>
+              </g>
+
+              <g class="network-node ref-node">
+                <rect x="43" y="280" width="134" height="90" rx="8"></rect>
+                <text x="110" y="322">G-01</text>
+                <text class="node-sub" x="110" y="344">GROUP REF.</text>
+              </g>
+
+              <g class="network-node ref-node">
+                <rect x="723" y="280" width="134" height="90" rx="8"></rect>
+                <text x="790" y="322">G-01</text>
+                <text class="node-sub" x="790" y="344">GROUP REF.</text>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="network-interpretation">
+            <span class="field-caption">INTERPRETATION</span>
+            <h3>Connections exist; meaning remains uncertain.</h3>
+            <p>The diagram shows where identifiers appear together in reports. A line represents co-occurrence or a reported reference. It does not, by itself, establish association, direction, or intent.</p>
+
+            <div class="analyst-warning">
+              <strong>Avoid analytical inflation</strong>
+              <span>Do not convert proximity into coordination without corroborating reporting.</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="panel analysis-section" id="timeline">
+        <header class="panel-header">
+          <div><span class="section-code">AN-03</span><h2>Event timeline</h2></div>
+          <span class="status-chip slate">3 DAYS</span>
+        </header>
+        <div class="timeline" id="timelineList"></div>
+      </section>
+
+      <section class="panel analysis-section" id="hypotheses">
+        <header class="panel-header">
+          <div><span class="section-code">AN-04</span><h2>Competing hypotheses</h2></div>
+          <span class="status-chip amber">WORKING</span>
+        </header>
+
+        <div class="hypothesis-intro">
+          <p>Rate how each item of evidence fits the competing explanations. A hypothesis should remain provisional until inconsistent evidence and information gaps are addressed.</p>
+          <div>
+            <span class="fit supports">+</span>Consistent
+            <span class="fit neutral">○</span>Neutral
+            <span class="fit conflicts">−</span>Inconsistent
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table hypothesis-table">
+            <thead>
+              <tr>
+                <th>Evidence</th>
+                <th>H1: Coordinated activity</th>
+                <th>H2: Routine institutional overlap</th>
+                <th>H3: Third-party or unknown explanation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>P-01 and P-02 observed in same common area</td>
+                <td><span class="fit supports">+</span></td>
+                <td><span class="fit supports">+</span></td>
+                <td><span class="fit neutral">○</span></td>
+              </tr>
+              <tr>
+                <td>Both identifiers attended the same scheduled program</td>
+                <td><span class="fit neutral">○</span></td>
+                <td><span class="fit supports">+</span></td>
+                <td><span class="fit neutral">○</span></td>
+              </tr>
+              <tr>
+                <td>D-01 appears in records connected to both identifiers</td>
+                <td><span class="fit supports">+</span></td>
+                <td><span class="fit conflicts">−</span></td>
+                <td><span class="fit supports">+</span></td>
+              </tr>
+              <tr>
+                <td>Meaning and ownership of references remain unverified</td>
+                <td><span class="fit conflicts">−</span></td>
+                <td><span class="fit neutral">○</span></td>
+                <td><span class="fit supports">+</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="analysis-bottom-grid" id="findings">
+        <section class="panel">
+          <header class="panel-header">
+            <div><span class="section-code">AN-05</span><h2>Analytical findings</h2></div>
+            <span class="status-chip" id="findingCountChip">0 SAVED</span>
+          </header>
+
+          <div class="panel-body">
+            <form id="findingForm" class="finding-form">
+              <label>
+                Finding title
+                <input id="findingTitle" required maxlength="80" placeholder="Short statement of the assessed finding">
+              </label>
+
+              <label>
+                Assessment
+                <textarea id="findingText" required rows="4" placeholder="State what the reporting supports and what it does not establish."></textarea>
+              </label>
+
+              <div class="form-grid two-column">
+                <label>Supporting report<select id="findingSource" required></select></label>
+                <label>
+                  Confidence
+                  <select id="findingConfidence" required>
+                    <option value="">Select</option>
+                    <option>Low</option>
+                    <option>Moderate</option>
+                    <option>High</option>
+                  </select>
+                </label>
+              </div>
+
+              <button class="primary-button" type="submit">Add source-linked finding</button>
+            </form>
+
+            <div class="finding-list" id="findingList"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-header">
+            <div><span class="section-code">GAPS</span><h2>Collection gaps</h2></div>
+          </header>
+
+          <div class="panel-body compact-body">
+            <ol class="gap-list">
+              <li><span>01</span><div><strong>Reference attribution</strong><p>Determine whether D-01 can be attributed to a specific user during the relevant period.</p></div></li>
+              <li><span>02</span><div><strong>Marker definition</strong><p>Identify the origin and meaning of G-01 through independent documentation.</p></div></li>
+              <li><span>03</span><div><strong>Behavioral context</strong><p>Compare reported contacts against routine movement and program patterns.</p></div></li>
+            </ol>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
