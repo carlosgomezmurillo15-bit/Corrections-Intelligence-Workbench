@@ -3,8 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Fictional corrections intelligence analysis training workbench.">
-  <title>Case Desk | Corrections Intelligence Workbench</title>
+  <meta
+    name="description"
+    content="Fictional corrections intelligence analysis training workbench."
+  >
+
+  <title>
+    Case Desk | Corrections Intelligence Workbench
+  </title>
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="case-desk.css">
@@ -28,32 +34,52 @@
     </div>
 
     <nav class="primary-nav" aria-label="Case workspace">
-      <a class="nav-link" data-nav="overview" href="index.html">
+      <a
+        class="nav-link"
+        data-nav="overview"
+        href="index.html"
+      >
         <span>01</span>
+
         <div>
           Case Desk
           <small>Queue, tasking, and status</small>
         </div>
       </a>
 
-      <a class="nav-link" data-nav="reports" href="reports.html">
+      <a
+        class="nav-link"
+        data-nav="reports"
+        href="reports.html"
+      >
         <span>02</span>
+
         <div>
           Source Reporting
           <small>Evaluate collected records</small>
         </div>
       </a>
 
-      <a class="nav-link" data-nav="analysis" href="analysis.html">
+      <a
+        class="nav-link"
+        data-nav="analysis"
+        href="analysis.html"
+      >
         <span>03</span>
+
         <div>
           Analytical Workspace
           <small>Links, timeline, hypotheses</small>
         </div>
       </a>
 
-      <a class="nav-link" data-nav="brief" href="brief.html">
+      <a
+        class="nav-link"
+        data-nav="brief"
+        href="brief.html"
+      >
         <span>04</span>
+
         <div>
           Intelligence Brief
           <small>Judgments and gaps</small>
@@ -71,7 +97,9 @@
         <span id="sidebarProgressBar"></span>
       </div>
 
-      <small>Draft work is saved only in this browser</small>
+      <small>
+        Draft work is saved only in this browser
+      </small>
     </div>
 
     <div class="classification">
@@ -91,7 +119,10 @@
       </button>
 
       <div>
-        <span class="breadcrumb" id="caseBreadcrumb">
+        <span
+          class="breadcrumb"
+          id="caseBreadcrumb"
+        >
           CASEWORK / CR-2026-014 / CASE DESK
         </span>
 
@@ -118,11 +149,12 @@
       <section class="desk-introduction">
         <div>
           <span>ANALYST WORKSPACE</span>
+
           <h1>Assigned case desk</h1>
 
           <p>
-            Select a case to review its current status,
-            intelligence requirement, and next actions.
+            Review assigned cases, evaluate the available
+            reporting, and document the next analytical action.
           </p>
         </div>
 
@@ -148,67 +180,6 @@
         class="case-desk"
         aria-label="Case management workspace"
       >
-        <aside class="case-queue-panel">
-          <header class="desk-panel-header">
-            <div>
-              <span>CASE QUEUE</span>
-              <strong>Assigned workload</strong>
-            </div>
-
-            <b id="queueCount">3</b>
-          </header>
-
-          <div
-            class="queue-filters"
-            role="group"
-            aria-label="Filter case queue"
-          >
-            <button
-              class="active"
-              type="button"
-              data-case-filter="ALL"
-            >
-              All
-            </button>
-
-            <button
-              type="button"
-              data-case-filter="ACTIVE"
-            >
-              Active
-            </button>
-
-            <button
-              type="button"
-              data-case-filter="PENDING"
-            >
-              Pending
-            </button>
-          </div>
-
-          <div
-            class="case-queue-list"
-            id="caseQueue"
-          ></div>
-
-          <div class="queue-legend">
-            <span>
-              <i class="priority-dot elevated"></i>
-              Elevated
-            </span>
-
-            <span>
-              <i class="priority-dot routine"></i>
-              Routine
-            </span>
-
-            <span>
-              <i class="priority-dot time"></i>
-              Time sensitive
-            </span>
-          </div>
-        </aside>
-
         <section class="case-workbench">
           <header class="workbench-header">
             <div>
@@ -270,18 +241,21 @@
           </nav>
 
           <div class="record-sheet">
-            <section class="record-block case-summary-block">
-              <div class="record-block-title">
-                <span>CASE SUMMARY</span>
+            <section class="case-summary-section">
+              <div class="section-heading">
+                <div>
+                  <span>CASE SUMMARY</span>
 
-                <small id="selectedCaseUpdated">
-                  Updated 19 Nov 2026
-                </small>
+                  <small id="selectedCaseUpdated">
+                    Updated 19 Nov 2026
+                  </small>
+                </div>
               </div>
 
               <dl class="case-fields">
                 <div>
                   <dt>Lead analyst</dt>
+
                   <dd id="selectedCaseAnalyst">
                     C. Gomez
                   </dd>
@@ -289,6 +263,7 @@
 
                 <div>
                   <dt>Due date</dt>
+
                   <dd id="selectedCaseDue">
                     20 Nov 2026
                   </dd>
@@ -296,6 +271,7 @@
 
                 <div>
                   <dt>Case type</dt>
+
                   <dd id="selectedCaseType">
                     Communication review
                   </dd>
@@ -303,6 +279,7 @@
 
                 <div>
                   <dt>Review stage</dt>
+
                   <dd id="selectedCaseStage">
                     Source evaluation
                   </dd>
@@ -315,10 +292,58 @@
               ></p>
             </section>
 
-            <section class="record-block">
-              <div class="record-block-title">
-                <span>INTELLIGENCE REQUIREMENT</span>
-                <small>IR-01</small>
+            <section
+              class="analytic-snapshot"
+              aria-label="Analytical snapshot"
+            >
+              <div class="section-heading">
+                <div>
+                  <span>ANALYTICAL SNAPSHOT</span>
+                  <small>Preliminary working view</small>
+                </div>
+              </div>
+
+              <div class="snapshot-grid">
+                <div>
+                  <span>Evidence base</span>
+
+                  <strong id="snapshotEvidence">
+                    8 source reports
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Coverage</span>
+
+                  <strong id="snapshotCoverage">
+                    4 indexed entities
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Assessment posture</span>
+
+                  <strong id="snapshotPosture">
+                    Source evaluation
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Uncertainty</span>
+
+                  <strong id="snapshotUncertainty">
+                    Moderate
+                  </strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="requirement-section">
+              <div class="section-heading">
+                <div>
+                  <span>INTELLIGENCE REQUIREMENT</span>
+                  <small>IR-01</small>
+                </div>
               </div>
 
               <p
@@ -333,10 +358,12 @@
             </section>
 
             <div class="case-detail-grid">
-              <section class="record-block">
-                <div class="record-block-title">
-                  <span>CASE HOLDINGS</span>
-                  <small>Current inventory</small>
+              <section class="detail-section">
+                <div class="section-heading">
+                  <div>
+                    <span>CASE HOLDINGS</span>
+                    <small>Current inventory</small>
+                  </div>
                 </div>
 
                 <table class="holdings-table">
@@ -352,10 +379,12 @@
                 </table>
               </section>
 
-              <section class="record-block">
-                <div class="record-block-title">
-                  <span>RECENT ACTIVITY</span>
-                  <small>Most recent first</small>
+              <section class="detail-section">
+                <div class="section-heading">
+                  <div>
+                    <span>RECENT ACTIVITY</span>
+                    <small>Most recent first</small>
+                  </div>
                 </div>
 
                 <div
@@ -367,80 +396,126 @@
           </div>
         </section>
 
-        <aside class="case-inspector">
-          <header class="desk-panel-header">
-            <div>
-              <span>INSPECTOR</span>
-              <strong>Tasking and review</strong>
-            </div>
-          </header>
+        <aside class="case-side-column">
+          <section class="case-queue-panel">
+            <header class="side-panel-header">
+              <div>
+                <span>CASE QUEUE</span>
+                <strong>Assigned workload</strong>
+              </div>
 
-          <section class="inspector-section">
-            <span class="inspector-label">
-              NEXT ACTION
-            </span>
+              <b id="queueCount">3</b>
+            </header>
 
-            <strong id="selectedCaseNextAction"></strong>
-            <p id="selectedCaseNextDetail"></p>
-          </section>
-
-          <section class="inspector-section">
-            <div class="inspector-heading">
-              <span>WORK COMPLETION</span>
-              <b id="selectedCaseProgressText">0%</b>
-            </div>
-
-            <div class="inspector-progress">
-              <span id="selectedCaseProgressBar"></span>
-            </div>
-          </section>
-
-          <section class="inspector-section">
-            <span class="inspector-label">
-              OPEN TASKS
-            </span>
-
-            <ul
-              class="task-register"
-              id="selectedCaseTasks"
-            ></ul>
-          </section>
-
-          <section class="inspector-section">
-            <span class="inspector-label">
-              COLLECTION GAPS
-            </span>
-
-            <ul
-              class="gap-register"
-              id="selectedCaseGaps"
-            ></ul>
-          </section>
-
-          <section class="inspector-section analyst-note-section">
-            <label for="caseDeskNote">
-              ANALYST DESK NOTE
-            </label>
-
-            <textarea
-              id="caseDeskNote"
-              rows="4"
-              placeholder="Record a short note for the selected case..."
-            ></textarea>
-
-            <button
-              class="secondary-button"
-              id="saveCaseDeskNote"
-              type="button"
+            <div
+              class="queue-filters"
+              role="group"
+              aria-label="Filter case queue"
             >
-              Save case note
-            </button>
+              <button
+                class="active"
+                type="button"
+                data-case-filter="ALL"
+              >
+                All
+              </button>
+
+              <button
+                type="button"
+                data-case-filter="ACTIVE"
+              >
+                Active
+              </button>
+
+              <button
+                type="button"
+                data-case-filter="PENDING"
+              >
+                Pending
+              </button>
+            </div>
+
+            <div
+              class="case-queue-list"
+              id="caseQueue"
+            ></div>
           </section>
 
-          <div class="training-caveat">
-            All cases and identifiers in this prototype
-            are fictional training data.
-          </div>
+          <section class="case-inspector">
+            <header class="side-panel-header">
+              <div>
+                <span>ANALYST TASKING</span>
+                <strong>Next steps</strong>
+              </div>
+            </header>
+
+            <section class="inspector-section next-action-section">
+              <span class="inspector-label">
+                NEXT ACTION
+              </span>
+
+              <strong id="selectedCaseNextAction"></strong>
+              <p id="selectedCaseNextDetail"></p>
+            </section>
+
+            <section class="inspector-section">
+              <div class="inspector-heading">
+                <span>WORK COMPLETION</span>
+                <b id="selectedCaseProgressText">0%</b>
+              </div>
+
+              <div class="inspector-progress">
+                <span id="selectedCaseProgressBar"></span>
+              </div>
+            </section>
+
+            <section class="inspector-section">
+              <span class="inspector-label">
+                OPEN TASKS
+              </span>
+
+              <ul
+                class="task-register"
+                id="selectedCaseTasks"
+              ></ul>
+            </section>
+
+            <section class="inspector-section">
+              <span class="inspector-label">
+                COLLECTION GAPS
+              </span>
+
+              <ul
+                class="gap-register"
+                id="selectedCaseGaps"
+              ></ul>
+            </section>
+
+            <section class="inspector-section analyst-note-section">
+              <label for="caseDeskNote">
+                ANALYST DESK NOTE
+              </label>
+
+              <textarea
+                id="caseDeskNote"
+                rows="4"
+                placeholder="Record a short note for this case..."
+              ></textarea>
+
+              <button
+                class="secondary-button"
+                id="saveCaseDeskNote"
+                type="button"
+              >
+                Save case note
+              </button>
+            </section>
+
+            <div class="training-caveat">
+              All cases and identifiers are fictional
+              training data.
+            </div>
+          </section>
         </aside>
       </section>
     </main>
