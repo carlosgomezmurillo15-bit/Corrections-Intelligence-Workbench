@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Fictional corrections intelligence analysis training workbench.">
-  <title>Case Overview | Corrections Intelligence Workbench</title>
+  <title>Case Desk | Corrections Intelligence Workbench</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="case-desk.css">
 </head>
 <body data-page="overview">
   <aside class="sidebar" id="sidebar">
@@ -18,24 +19,27 @@
     </div>
 
     <div class="case-selector">
-      <span>ACTIVE CASE</span>
-      <strong>CR-2026-014</strong>
-      <small>Communication Review</small>
+      <span>SELECTED CASE</span>
+      <strong id="sidebarCaseId">CR-2026-014</strong>
+      <small id="sidebarCaseName">Communication Review</small>
     </div>
 
     <nav class="primary-nav" aria-label="Case workspace">
       <a class="nav-link" data-nav="overview" href="index.html">
         <span>01</span>
-        <div>Case Overview<small>Tasking and status</small></div>
+        <div>Case Desk<small>Queue, tasking, and status</small></div>
       </a>
+
       <a class="nav-link" data-nav="reports" href="reports.html">
         <span>02</span>
         <div>Source Reporting<small>Evaluate collected records</small></div>
       </a>
+
       <a class="nav-link" data-nav="analysis" href="analysis.html">
         <span>03</span>
         <div>Analytical Workspace<small>Links, timeline, hypotheses</small></div>
       </a>
+
       <a class="nav-link" data-nav="brief" href="brief.html">
         <span>04</span>
         <div>Intelligence Brief<small>Judgments and gaps</small></div>
@@ -44,13 +48,15 @@
 
     <div class="sidebar-status">
       <div>
-        <span>CASE PROGRESS</span>
+        <span>PRIMARY CASE PROGRESS</span>
         <strong id="sidebarProgress">0%</strong>
       </div>
+
       <div class="progress-track">
         <span id="sidebarProgressBar"></span>
       </div>
-      <small>Saved only in this browser</small>
+
+      <small>Draft work is saved only in this browser</small>
     </div>
 
     <div class="classification">UNCLASSIFIED // TRAINING</div>
@@ -58,182 +64,239 @@
 
   <div class="app-shell">
     <header class="utility-bar">
-      <button class="menu-button" id="menuButton" type="button">Menu</button>
+      <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation">
+        Menu
+      </button>
+
       <div>
-        <span class="breadcrumb">CASEWORK / CR-2026-014 / OVERVIEW</span>
-        <strong>Case Overview</strong>
+        <span class="breadcrumb" id="caseBreadcrumb">
+          CASEWORK / CR-2026-014 / CASE DESK
+        </span>
+        <strong>Case Desk</strong>
       </div>
+
       <div class="utility-actions">
-        <span class="system-status"><i></i> Local workspace</span>
-        <button class="text-button" id="resetWorkspace" type="button">Reset case</button>
+        <span class="system-status">
+          <i></i>
+          Local training workspace
+        </span>
+
+        <button class="text-button" id="resetWorkspace" type="button">
+          Reset primary case
+        </button>
       </div>
     </header>
 
-    <main class="workspace">
-      <section class="case-heading">
-        <div>
-          <span class="kicker">CASE CR-2026-014</span>
-          <h1>Possible coordinated communication activity</h1>
-          <p>Determine whether the available fictional reporting supports a coordinated activity assessment and identify the remaining intelligence gaps.</p>
+    <main class="workspace desk-workspace">
+      <section class="command-ribbon" aria-label="Case commands">
+        <div class="ribbon-group ribbon-identity">
+          <span>WORKSPACE</span>
+          <strong>Corrections Intelligence Case Desk</strong>
         </div>
 
-        <div class="case-flags">
-          <span class="flag flag-priority">PRIORITY: ROUTINE</span>
-          <span class="flag">STATUS: ACTIVE REVIEW</span>
-          <span class="flag">DUE: 20 NOV 2026</span>
+        <div class="ribbon-group">
+          <span>CASE</span>
+          <button type="button" id="focusCurrentCase">Current case</button>
+          <button type="button" id="showAllCases">All cases</button>
         </div>
-      </section>
 
-      <section class="metric-strip">
-        <div>
-          <span>Source reports</span>
-          <strong>08</strong>
-          <small>Five require review</small>
+        <div class="ribbon-group">
+          <span>REVIEW</span>
+          <a href="reports.html">Source register</a>
+          <a href="analysis.html#timeline-section">Chronology</a>
         </div>
-        <div>
-          <span>Indexed entities</span>
-          <strong>04</strong>
-          <small>Two person identifiers</small>
+
+        <div class="ribbon-group">
+          <span>ANALYZE</span>
+          <a href="analysis.html#network-section">Associations</a>
+          <a href="analysis.html#hypothesis-section">Hypotheses</a>
         </div>
-        <div>
-          <span>Analytic findings</span>
-          <strong id="overviewFindingCount">00</strong>
-          <small>Saved by analyst</small>
-        </div>
-        <div>
-          <span>Review completion</span>
-          <strong id="overviewProgress">0%</strong>
-          <small>Reports marked reviewed</small>
+
+        <div class="ribbon-group">
+          <span>PRODUCTS</span>
+          <a href="brief.html">Draft brief</a>
         </div>
       </section>
 
-      <div class="workspace-grid overview-grid">
-        <section class="panel">
-          <header class="panel-header">
+      <section class="case-desk" aria-label="Case management workspace">
+        <aside class="case-queue-panel">
+          <header class="desk-panel-header">
             <div>
-              <span class="section-code">IR-01</span>
-              <h2>Intelligence requirement</h2>
+              <span>CASE QUEUE</span>
+              <strong>Assigned workload</strong>
             </div>
-            <span class="status-chip amber">OPEN</span>
+
+            <b id="queueCount">3</b>
           </header>
 
-          <div class="panel-body">
-            <p class="lead-question">Does the available reporting indicate coordinated communication between the two person identifiers, or are the observed connections better explained by routine proximity and shared institutional activity?</p>
-
-            <div class="subsection">
-              <h3>Key intelligence questions</h3>
-              <ol class="question-list">
-                <li><span>KIQ-1</span>Which reported connections are independently corroborated?</li>
-                <li><span>KIQ-2</span>What is the significance of group reference G-01?</li>
-                <li><span>KIQ-3</span>Can device reference D-01 be reliably attributed?</li>
-              </ol>
-            </div>
+          <div class="queue-filters" role="group" aria-label="Filter case queue">
+            <button class="active" type="button" data-case-filter="ALL">All</button>
+            <button type="button" data-case-filter="ACTIVE">Active</button>
+            <button type="button" data-case-filter="PENDING">Pending</button>
           </div>
-        </section>
 
-        <section class="panel">
-          <header class="panel-header">
-            <div>
-              <span class="section-code">STATUS</span>
-              <h2>Analyst checklist</h2>
-            </div>
-          </header>
+          <div class="case-queue-list" id="caseQueue"></div>
 
-          <div class="panel-body compact-body">
-            <ul class="checklist" id="overviewChecklist">
-              <li data-check="review">
-                <i></i>
-                <div>
-                  <strong>Review source reporting</strong>
-                  <small>Evaluate relevance and limitations</small>
-                </div>
-                <span id="reviewStatus">0/8</span>
-              </li>
-              <li data-check="finding">
-                <i></i>
-                <div>
-                  <strong>Record analytical findings</strong>
-                  <small>Connect claims to source reports</small>
-                </div>
-                <span id="findingStatus">0</span>
-              </li>
-              <li data-check="brief">
-                <i></i>
-                <div>
-                  <strong>Draft intelligence brief</strong>
-                  <small>State judgments and confidence</small>
-                </div>
-                <span id="briefStatus">Not started</span>
-              </li>
-            </ul>
+          <div class="queue-legend">
+            <span><i class="priority-dot elevated"></i>Elevated</span>
+            <span><i class="priority-dot routine"></i>Routine</span>
+            <span><i class="priority-dot time"></i>Time sensitive</span>
           </div>
-        </section>
+        </aside>
 
-        <section class="panel wide-panel">
-          <header class="panel-header">
+        <section class="case-workbench">
+          <header class="workbench-header">
             <div>
-              <span class="section-code">CASE NOTE</span>
-              <h2>Current assessment posture</h2>
-            </div>
-            <span class="status-chip slate">PRELIMINARY</span>
-          </header>
-
-          <div class="panel-body assessment-layout">
-            <div>
-              <h3>What is presently known</h3>
-              <p>Multiple records place P-01 and P-02 in overlapping institutional settings. Separate reporting connects both identifiers to either D-01 or G-01. These records establish points of contact and common references, but they do not establish intent, direction, or confirmed group affiliation.</p>
+              <span id="selectedCaseId">CR-2026-014</span>
+              <h1 id="selectedCaseTitle">
+                Possible coordinated communication activity
+              </h1>
             </div>
 
-            <div>
-              <h3>What remains unresolved</h3>
-              <p>The meaning of G-01 is unverified. Attribution of D-01 remains uncertain. Routine program attendance and housing-unit proximity provide plausible alternative explanations for some observed overlap.</p>
-            </div>
-
-            <div class="analytic-standard">
-              <span>ANALYTIC STANDARD</span>
-              <strong>Separate observation from inference.</strong>
-              <p>Use confidence language, record alternative explanations, and identify information gaps before making a final judgment.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel wide-panel">
-          <header class="panel-header">
-            <div>
-              <span class="section-code">WORKFLOW</span>
-              <h2>Recommended sequence</h2>
+            <div class="workbench-status">
+              <span id="selectedCasePriority">ROUTINE</span>
+              <strong id="selectedCaseStatus">ACTIVE REVIEW</strong>
             </div>
           </header>
 
-          <div class="workflow-steps">
-            <a href="reports.html">
-              <span>01</span>
-              <div>
-                <strong>Evaluate reporting</strong>
-                <small>Open every report and note its value and limitations.</small>
+          <nav class="record-tabs" aria-label="Selected case sections">
+            <button class="active" type="button">Summary</button>
+            <a id="caseReportsLink" href="reports.html">Reports</a>
+            <a id="caseEntitiesLink" href="analysis.html#entity-section">Entities</a>
+            <a id="caseTimelineLink" href="analysis.html#timeline-section">Timeline</a>
+            <a id="caseProductLink" href="brief.html">Products</a>
+          </nav>
+
+          <div class="record-sheet">
+            <section class="record-block case-summary-block">
+              <div class="record-block-title">
+                <span>CASE SUMMARY</span>
+                <small id="selectedCaseUpdated">Updated 19 Nov 2026</small>
               </div>
-            </a>
-            <a href="analysis.html">
-              <span>02</span>
-              <div>
-                <strong>Test relationships</strong>
-                <small>Compare the network, event chronology, and alternatives.</small>
+
+              <dl class="case-fields">
+                <div>
+                  <dt>Lead analyst</dt>
+                  <dd id="selectedCaseAnalyst">C. Gomez</dd>
+                </div>
+
+                <div>
+                  <dt>Due date</dt>
+                  <dd id="selectedCaseDue">20 Nov 2026</dd>
+                </div>
+
+                <div>
+                  <dt>Case type</dt>
+                  <dd id="selectedCaseType">Communication review</dd>
+                </div>
+
+                <div>
+                  <dt>Review stage</dt>
+                  <dd id="selectedCaseStage">Source evaluation</dd>
+                </div>
+              </dl>
+
+              <p id="selectedCaseSummary" class="case-summary-text"></p>
+            </section>
+
+            <section class="record-block">
+              <div class="record-block-title">
+                <span>INTELLIGENCE REQUIREMENT</span>
+                <small>IR-01</small>
               </div>
-            </a>
-            <a href="brief.html">
-              <span>03</span>
-              <div>
-                <strong>Write the assessment</strong>
-                <small>State the bottom line, confidence, gaps, and next steps.</small>
+
+              <p class="requirement-text" id="selectedCaseRequirement"></p>
+              <ol class="kiq-list" id="selectedCaseQuestions"></ol>
+            </section>
+
+            <section class="record-block">
+              <div class="record-block-title">
+                <span>CASE HOLDINGS</span>
+                <small>Current inventory</small>
               </div>
-            </a>
+
+              <table class="holdings-table">
+                <thead>
+                  <tr>
+                    <th>Collection</th>
+                    <th>Count</th>
+                    <th>Review state</th>
+                  </tr>
+                </thead>
+                <tbody id="selectedCaseHoldings"></tbody>
+              </table>
+            </section>
+
+            <section class="record-block">
+              <div class="record-block-title">
+                <span>RECENT CASE ACTIVITY</span>
+                <small>Most recent first</small>
+              </div>
+
+              <div class="activity-register" id="selectedCaseActivity"></div>
+            </section>
           </div>
         </section>
-      </div>
+
+        <aside class="case-inspector">
+          <header class="desk-panel-header">
+            <div>
+              <span>INSPECTOR</span>
+              <strong>Tasking and review</strong>
+            </div>
+          </header>
+
+          <section class="inspector-section">
+            <span class="inspector-label">NEXT ACTION</span>
+            <strong id="selectedCaseNextAction"></strong>
+            <p id="selectedCaseNextDetail"></p>
+          </section>
+
+          <section class="inspector-section">
+            <div class="inspector-heading">
+              <span>WORK COMPLETION</span>
+              <b id="selectedCaseProgressText">0%</b>
+            </div>
+
+            <div class="inspector-progress">
+              <span id="selectedCaseProgressBar"></span>
+            </div>
+          </section>
+
+          <section class="inspector-section">
+            <span class="inspector-label">OPEN TASKS</span>
+            <ul class="task-register" id="selectedCaseTasks"></ul>
+          </section>
+
+          <section class="inspector-section">
+            <span class="inspector-label">COLLECTION GAPS</span>
+            <ul class="gap-register" id="selectedCaseGaps"></ul>
+          </section>
+
+          <section class="inspector-section analyst-note-section">
+            <label for="caseDeskNote">ANALYST DESK NOTE</label>
+
+            <textarea
+              id="caseDeskNote"
+              rows="4"
+              placeholder="Record a short note for the selected case..."
+            ></textarea>
+
+            <button class="secondary-button" id="saveCaseDeskNote" type="button">
+              Save case note
+            </button>
+          </section>
+
+          <div class="training-caveat">
+            All cases and identifiers in this prototype are fictional training data.
+          </div>
+        </aside>
+      </section>
     </main>
   </div>
 
-  <div class="toast" id="toast"></div>
-  <script src="script.js"></script>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="case-desk.js"></script>
 </body>
 </html>
