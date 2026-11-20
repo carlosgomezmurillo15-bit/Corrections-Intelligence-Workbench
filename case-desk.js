@@ -1,6 +1,6 @@
 "use strict";
 
-// Homepage-only case desk.
+// Homepage case desk.
 // All cases and identifiers are fictional training data.
 
 const CASES = [
@@ -31,9 +31,21 @@ const CASES = [
     ],
 
     holdings: [
-      ["Source reports", 8, "5 awaiting review"],
-      ["Indexed entities", 4, "2 unresolved"],
-      ["Analytical findings", 0, "Draft stage"]
+      [
+        "Source reports",
+        8,
+        "5 awaiting review"
+      ],
+      [
+        "Indexed entities",
+        4,
+        "2 unresolved"
+      ],
+      [
+        "Analytical findings",
+        0,
+        "Draft stage"
+      ]
     ],
 
     activity: [
@@ -54,7 +66,8 @@ const CASES = [
       ]
     ],
 
-    nextAction: "Complete source evaluation",
+    nextAction:
+      "Complete source evaluation",
 
     nextDetail:
       "Review the remaining reports and record reliability, credibility, and limitations.",
@@ -98,9 +111,21 @@ const CASES = [
     ],
 
     holdings: [
-      ["Source reports", 6, "3 indexed"],
-      ["Indexed entities", 5, "Initial review"],
-      ["Location references", 4, "2 recurring"]
+      [
+        "Source reports",
+        6,
+        "3 indexed"
+      ],
+      [
+        "Indexed entities",
+        5,
+        "Initial review"
+      ],
+      [
+        "Location references",
+        4,
+        "2 recurring"
+      ]
     ],
 
     activity: [
@@ -121,7 +146,8 @@ const CASES = [
       ]
     ],
 
-    nextAction: "Normalize location references",
+    nextAction:
+      "Normalize location references",
 
     nextDetail:
       "Standardize location names before comparing sequence and frequency.",
@@ -165,9 +191,21 @@ const CASES = [
     ],
 
     holdings: [
-      ["Source reports", 4, "Triage required"],
-      ["Indexed entities", 3, "Provisional"],
-      ["Corroborated claims", 0, "Not established"]
+      [
+        "Source reports",
+        4,
+        "Triage required"
+      ],
+      [
+        "Indexed entities",
+        3,
+        "Provisional"
+      ],
+      [
+        "Corroborated claims",
+        0,
+        "Not established"
+      ]
     ],
 
     activity: [
@@ -188,7 +226,8 @@ const CASES = [
       ]
     ],
 
-    nextAction: "Conduct source-origin check",
+    nextAction:
+      "Conduct source-origin check",
 
     nextDetail:
       "Determine whether the four reports repeat one account or provide independent information.",
@@ -206,15 +245,26 @@ const CASES = [
   }
 ];
 
-const PRIMARY_STORAGE_KEY = "corrections-intelligence-workbench-v3";
-const NOTE_STORAGE_KEY = "ciw-case-desk-notes";
-const SELECTED_CASE_KEY = "ciw-selected-case";
+const PRIMARY_STORAGE_KEY =
+  "corrections-intelligence-workbench-v3";
+
+const NOTE_STORAGE_KEY =
+  "ciw-case-desk-notes";
+
+const SELECTED_CASE_KEY =
+  "ciw-selected-case";
 
 let selectedCaseId =
-  localStorage.getItem(SELECTED_CASE_KEY) || "CR-2026-014";
+  localStorage.getItem(SELECTED_CASE_KEY) ||
+  "CR-2026-014";
 
 let activeCaseFilter = "ALL";
 let toastTimer;
+
+
+/* =====================================
+   BASIC HELPERS
+   ===================================== */
 
 function byId(id) {
   return document.getElementById(id);
@@ -233,6 +283,11 @@ function create(tag, className, text) {
 
   return element;
 }
+
+
+/* =====================================
+   PRIMARY CASE STORAGE
+   ===================================== */
 
 function readPrimaryState() {
   try {
@@ -263,7 +318,7 @@ function readPrimaryState() {
 }
 
 function briefCompletion(brief) {
-  const required = [
+  const requiredFields = [
     "briefBluf",
     "briefJudgments",
     "briefConfidence",
@@ -272,47 +327,83 @@ function briefCompletion(brief) {
     "briefRecommendations"
   ];
 
-  const completed = required.filter((key) => {
-    return String(brief[key] || "").trim();
-  }).length;
+  const completedFields =
+    requiredFields.filter((fieldName) => {
+      return String(
+        brief[fieldName] || ""
+      ).trim();
+    }).length;
 
-  return completed / required.length;
+  return (
+    completedFields /
+    requiredFields.length
+  );
 }
 
 function primaryProgress() {
-  const state = readPrimaryState();
+  const primaryState =
+    readPrimaryState();
+
+  const reviewedReportCount =
+    Object.keys(
+      primaryState.reviews
+    ).length;
 
   const reviewPoints =
-    (Object.keys(state.reviews).length / 8) * 55;
+    (reviewedReportCount / 8) * 55;
 
   const findingPoints =
-    Math.min(state.findings.length / 2, 1) * 20;
+    Math.min(
+      primaryState.findings.length / 2,
+      1
+    ) * 20;
 
   const briefPoints =
-    briefCompletion(state.brief) * 25;
+    briefCompletion(
+      primaryState.brief
+    ) * 25;
 
   return Math.round(
-    reviewPoints + findingPoints + briefPoints
+    reviewPoints +
+    findingPoints +
+    briefPoints
   );
 }
 
 function caseProgress(caseRecord) {
-  if (caseRecord.id === "CR-2026-014") {
+  if (
+    caseRecord.id ===
+    "CR-2026-014"
+  ) {
     return primaryProgress();
   }
 
   return caseRecord.progress;
 }
 
+
+/* =====================================
+   CASE NOTES
+   ===================================== */
+
 function caseDeskNotes() {
   try {
     return (
-      JSON.parse(localStorage.getItem(NOTE_STORAGE_KEY)) || {}
+      JSON.parse(
+        localStorage.getItem(
+          NOTE_STORAGE_KEY
+        )
+      ) || {}
     );
   } catch {
     return {};
   }
 }
+
+
+/* =====================================
+   MESSAGE NOTIFICATION
+   ===================================== */
 
 function showToast(message) {
   const toast = byId("toast");
@@ -331,108 +422,198 @@ function showToast(message) {
   }, 2400);
 }
 
+
+/* =====================================
+   CASE QUEUE
+   ===================================== */
+
 function renderCaseQueue() {
   const queue = byId("caseQueue");
 
-  const visibleCases = CASES.filter((caseRecord) => {
-    return (
-      activeCaseFilter === "ALL" ||
-      caseRecord.queue === activeCaseFilter
-    );
-  });
+  if (!queue) {
+    return;
+  }
+
+  const visibleCases =
+    CASES.filter((caseRecord) => {
+      return (
+        activeCaseFilter === "ALL" ||
+        caseRecord.queue ===
+          activeCaseFilter
+      );
+    });
 
   queue.replaceChildren();
 
-  visibleCases.forEach((caseRecord) => {
-    const selectedClass =
-      caseRecord.id === selectedCaseId ? " selected" : "";
+  visibleCases.forEach(
+    (caseRecord) => {
+      const isSelected =
+        caseRecord.id ===
+        selectedCaseId;
 
-    const button = create(
-      "button",
-      `queue-case${selectedClass}`
-    );
+      const selectedClass =
+        isSelected
+          ? " selected"
+          : "";
 
-    button.type = "button";
-    button.dataset.priority = caseRecord.priority;
+      const caseButton =
+        create(
+          "button",
+          `queue-case${selectedClass}`
+        );
 
-    const top = create("div", "queue-case-top");
+      caseButton.type = "button";
 
-    top.append(
-      create("span", "queue-case-id", caseRecord.id)
-    );
+      caseButton.dataset.priority =
+        caseRecord.priority;
 
-    top.append(
-      create(
-        "span",
-        "queue-case-status",
-        caseRecord.status
-      )
-    );
+      caseButton.setAttribute(
+        "aria-label",
+        `Open ${caseRecord.id}: ${caseRecord.title}`
+      );
 
-    const meta = create("div", "queue-case-meta");
+      const topRow =
+        create(
+          "div",
+          "queue-case-top"
+        );
 
-    meta.append(
-      create("span", "", `Due ${caseRecord.due}`)
-    );
+      topRow.append(
+        create(
+          "span",
+          "queue-case-id",
+          caseRecord.id
+        )
+      );
 
-    meta.append(
-      create(
-        "b",
-        "",
-        `${caseProgress(caseRecord)}%`
-      )
-    );
+      topRow.append(
+        create(
+          "span",
+          "queue-case-status",
+          caseRecord.status
+        )
+      );
 
-    button.append(
-      top,
-      create("strong", "", caseRecord.title),
-      meta
-    );
+      const caseTitle =
+        create(
+          "strong",
+          "",
+          caseRecord.title
+        );
 
-    button.addEventListener("click", () => {
-      selectCase(caseRecord.id);
-    });
+      const caseMetadata =
+        create(
+          "div",
+          "queue-case-meta"
+        );
 
-    queue.append(button);
-  });
+      caseMetadata.append(
+        create(
+          "span",
+          "",
+          `Due ${caseRecord.due}`
+        )
+      );
 
-  byId("queueCount").textContent =
-    String(visibleCases.length);
+      caseMetadata.append(
+        create(
+          "b",
+          "",
+          `${caseProgress(caseRecord)}%`
+        )
+      );
+
+      caseButton.append(
+        topRow,
+        caseTitle,
+        caseMetadata
+      );
+
+      caseButton.addEventListener(
+        "click",
+        () => {
+          selectCase(caseRecord.id);
+        }
+      );
+
+      queue.append(caseButton);
+    }
+  );
+
+  const queueCount =
+    byId("queueCount");
+
+  if (queueCount) {
+    queueCount.textContent =
+      String(visibleCases.length);
+  }
 }
 
-function setCaseLinks(caseRecord) {
-  const primary =
-    caseRecord.id === "CR-2026-014";
 
-  const linkIds = [
+/* =====================================
+   CASE PAGE LINKS
+   ===================================== */
+
+function setCaseLinks(caseRecord) {
+  const primaryCase =
+    caseRecord.id ===
+    "CR-2026-014";
+
+  const caseLinkIds = [
     "caseReportsLink",
     "caseEntitiesLink",
     "caseTimelineLink",
     "caseProductLink"
   ];
 
-  linkIds.forEach((id) => {
+  caseLinkIds.forEach((id) => {
     const link = byId(id);
 
-    link.classList.toggle("disabled", !primary);
-    link.setAttribute(
-      "aria-disabled",
-      String(!primary)
+    if (!link) {
+      return;
+    }
+
+    link.classList.toggle(
+      "disabled",
+      !primaryCase
     );
 
-    link.title = primary
+    link.setAttribute(
+      "aria-disabled",
+      String(!primaryCase)
+    );
+
+    link.title = primaryCase
       ? "Open the working primary case"
       : "Detailed records are planned for the final prototype";
   });
 }
 
+
+/* =====================================
+   SELECTED CASE DISPLAY
+   ===================================== */
+
 function renderSelectedCase() {
   const caseRecord =
-    CASES.find((item) => item.id === selectedCaseId) ||
-    CASES[0];
+    CASES.find((item) => {
+      return (
+        item.id === selectedCaseId
+      );
+    }) || CASES[0];
 
-  const progress = caseProgress(caseRecord);
-  const primaryState = readPrimaryState();
+  const progress =
+    caseProgress(caseRecord);
+
+  const primaryState =
+    readPrimaryState();
+
+  const selectedCaseIdElement =
+    byId("selectedCaseId");
+
+  if (!selectedCaseIdElement) {
+    return;
+  }
 
   byId("selectedCaseId").textContent =
     caseRecord.id;
@@ -479,6 +660,51 @@ function renderSelectedCase() {
   byId("selectedCaseProgressBar").style.width =
     `${progress}%`;
 
+  const snapshotEvidence =
+    byId("snapshotEvidence");
+
+  if (snapshotEvidence) {
+    snapshotEvidence.textContent =
+      `${caseRecord.holdings[0][1]} source reports`;
+  }
+
+  const snapshotCoverage =
+    byId("snapshotCoverage");
+
+  if (snapshotCoverage) {
+    snapshotCoverage.textContent =
+      `${caseRecord.holdings[1][1]} indexed entities`;
+  }
+
+  const snapshotPosture =
+    byId("snapshotPosture");
+
+  if (snapshotPosture) {
+    snapshotPosture.textContent =
+      caseRecord.stage;
+  }
+
+  const snapshotUncertainty =
+    byId("snapshotUncertainty");
+
+  if (snapshotUncertainty) {
+    if (
+      caseRecord.status === "INTAKE"
+    ) {
+      snapshotUncertainty.textContent =
+        "High";
+    } else if (
+      caseRecord.status ===
+      "COLLECTION"
+    ) {
+      snapshotUncertainty.textContent =
+        "Moderate–high";
+    } else {
+      snapshotUncertainty.textContent =
+        "Moderate";
+    }
+  }
+
   byId("sidebarCaseId").textContent =
     caseRecord.id;
 
@@ -488,23 +714,42 @@ function renderSelectedCase() {
   byId("caseBreadcrumb").textContent =
     `CASEWORK / ${caseRecord.id} / CASE DESK`;
 
+
+  /* Key intelligence questions */
+
   const questions =
     byId("selectedCaseQuestions");
 
   questions.replaceChildren();
 
-  caseRecord.questions.forEach((question) => {
-    questions.append(
-      create("li", "", question)
-    );
-  });
+  caseRecord.questions.forEach(
+    (question) => {
+      questions.append(
+        create(
+          "li",
+          "",
+          question
+        )
+      );
+    }
+  );
+
+
+  /* Case holdings */
 
   const holdings =
-    caseRecord.holdings.map((row) => [...row]);
+    caseRecord.holdings.map(
+      (row) => [...row]
+    );
 
-  if (caseRecord.id === "CR-2026-014") {
+  if (
+    caseRecord.id ===
+    "CR-2026-014"
+  ) {
     const reviewedReports =
-      Object.keys(primaryState.reviews).length;
+      Object.keys(
+        primaryState.reviews
+      ).length;
 
     holdings[0][2] =
       `${8 - reviewedReports} awaiting review`;
@@ -523,27 +768,45 @@ function renderSelectedCase() {
 
   holdingsBody.replaceChildren();
 
-  holdings.forEach(([label, count, status]) => {
-    const row = create("tr");
+  holdings.forEach(
+    ([label, count, status]) => {
+      const row =
+        create("tr");
 
-    row.append(
-      create("td", "", label),
-      create("td", "", String(count))
-    );
+      row.append(
+        create(
+          "td",
+          "",
+          label
+        )
+      );
 
-    const stateCell = create("td");
+      row.append(
+        create(
+          "td",
+          "",
+          String(count)
+        )
+      );
 
-    stateCell.append(
-      create(
-        "span",
-        "holdings-state",
-        status
-      )
-    );
+      const statusCell =
+        create("td");
 
-    row.append(stateCell);
-    holdingsBody.append(row);
-  });
+      statusCell.append(
+        create(
+          "span",
+          "holdings-state",
+          status
+        )
+      );
+
+      row.append(statusCell);
+      holdingsBody.append(row);
+    }
+  );
+
+
+  /* Recent case activity */
 
   const activity =
     byId("selectedCaseActivity");
@@ -552,66 +815,129 @@ function renderSelectedCase() {
 
   caseRecord.activity.forEach(
     ([date, title, detail]) => {
-      const row =
-        create("div", "activity-row");
+      const activityRow =
+        create(
+          "div",
+          "activity-row"
+        );
 
-      const copy = create("div");
+      const activityText =
+        create("div");
 
-      copy.append(
-        create("strong", "", title),
-        create("small", "", detail)
+      activityText.append(
+        create(
+          "strong",
+          "",
+          title
+        )
       );
 
-      row.append(
-        create("time", "", date),
-        copy
+      activityText.append(
+        create(
+          "small",
+          "",
+          detail
+        )
       );
 
-      activity.append(row);
+      activityRow.append(
+        create(
+          "time",
+          "",
+          date
+        )
+      );
+
+      activityRow.append(
+        activityText
+      );
+
+      activity.append(
+        activityRow
+      );
     }
   );
 
-  const tasks =
+
+  /* Analyst tasks */
+
+  const taskList =
     byId("selectedCaseTasks");
 
-  tasks.replaceChildren();
+  taskList.replaceChildren();
 
-  caseRecord.tasks.forEach((task) => {
-    tasks.append(create("li", "", task));
-  });
+  caseRecord.tasks.forEach(
+    (task) => {
+      taskList.append(
+        create(
+          "li",
+          "",
+          task
+        )
+      );
+    }
+  );
 
-  const gaps =
+
+  /* Collection gaps */
+
+  const gapList =
     byId("selectedCaseGaps");
 
-  gaps.replaceChildren();
+  gapList.replaceChildren();
 
-  caseRecord.gaps.forEach((gap) => {
-    gaps.append(create("li", "", gap));
-  });
+  caseRecord.gaps.forEach(
+    (gap) => {
+      gapList.append(
+        create(
+          "li",
+          "",
+          gap
+        )
+      );
+    }
+  );
 
-  const savedNotes = caseDeskNotes();
+
+  /* Restore saved note */
+
+  const savedNotes =
+    caseDeskNotes();
 
   byId("caseDeskNote").value =
-    savedNotes[caseRecord.id] || "";
+    savedNotes[caseRecord.id] ||
+    "";
 
-  const primaryCaseProgress =
+
+  /* Primary case progress */
+
+  const currentPrimaryProgress =
     primaryProgress();
 
   byId("sidebarProgress").textContent =
-    `${primaryCaseProgress}%`;
+    `${currentPrimaryProgress}%`;
 
   byId("sidebarProgressBar").style.width =
-    `${primaryCaseProgress}%`;
+    `${currentPrimaryProgress}%`;
 
   setCaseLinks(caseRecord);
+
+  // This makes all cases appear immediately.
   renderCaseQueue();
 }
 
-function selectCase(caseId) {
-  const validCase =
-    CASES.some((item) => item.id === caseId);
 
-  if (!validCase) {
+/* =====================================
+   CASE SELECTION
+   ===================================== */
+
+function selectCase(caseId) {
+  const caseExists =
+    CASES.some((item) => {
+      return item.id === caseId;
+    });
+
+  if (!caseExists) {
     return;
   }
 
@@ -625,119 +951,214 @@ function selectCase(caseId) {
   renderSelectedCase();
 }
 
+
+/* =====================================
+   PAGE INITIALIZATION
+   ===================================== */
+
 function initializeCaseDesk() {
-  const overviewLink =
+  const overviewNavigation =
     document.querySelector(
       '[data-nav="overview"]'
     );
 
-  if (overviewLink) {
-    overviewLink.classList.add("active");
+  if (overviewNavigation) {
+    overviewNavigation.classList.add(
+      "active"
+    );
   }
 
-  byId("menuButton").addEventListener(
-    "click",
-    () => {
-      byId("sidebar").classList.toggle("open");
-    }
-  );
+
+  /* Mobile sidebar */
+
+  const menuButton =
+    byId("menuButton");
+
+  const sidebar =
+    byId("sidebar");
+
+  if (
+    menuButton &&
+    sidebar
+  ) {
+    menuButton.addEventListener(
+      "click",
+      () => {
+        sidebar.classList.toggle(
+          "open"
+        );
+      }
+    );
+
+    sidebar
+      .querySelectorAll("a")
+      .forEach((link) => {
+        link.addEventListener(
+          "click",
+          () => {
+            sidebar.classList.remove(
+              "open"
+            );
+          }
+        );
+      });
+  }
+
+
+  /* Queue filters */
 
   document
-    .querySelectorAll(".sidebar a")
-    .forEach((link) => {
-      link.addEventListener("click", () => {
-        byId("sidebar").classList.remove("open");
-      });
+    .querySelectorAll(
+      "[data-case-filter]"
+    )
+    .forEach((button) => {
+      button.addEventListener(
+        "click",
+        () => {
+          activeCaseFilter =
+            button.dataset.caseFilter;
+
+          document
+            .querySelectorAll(
+              "[data-case-filter]"
+            )
+            .forEach((filterButton) => {
+              filterButton.classList.toggle(
+                "active",
+                filterButton === button
+              );
+            });
+
+          renderCaseQueue();
+        }
+      );
     });
 
-  document
-    .querySelectorAll("[data-case-filter]")
-    .forEach((button) => {
-      button.addEventListener("click", () => {
-        activeCaseFilter =
-          button.dataset.caseFilter;
+
+  /*
+   These buttons existed in an older layout.
+   The checks prevent missing buttons from
+   stopping the initial case render.
+  */
+
+  const focusCurrentCaseButton =
+    byId("focusCurrentCase");
+
+  if (focusCurrentCaseButton) {
+    focusCurrentCaseButton.addEventListener(
+      "click",
+      () => {
+        selectCase(
+          "CR-2026-014"
+        );
+      }
+    );
+  }
+
+  const showAllCasesButton =
+    byId("showAllCases");
+
+  if (showAllCasesButton) {
+    showAllCasesButton.addEventListener(
+      "click",
+      () => {
+        activeCaseFilter = "ALL";
 
         document
-          .querySelectorAll("[data-case-filter]")
-          .forEach((item) => {
-            item.classList.toggle(
-              "active",
-              item === button
-            );
-          });
+          .querySelectorAll(
+            "[data-case-filter]"
+          )
+          .forEach(
+            (filterButton) => {
+              filterButton.classList.toggle(
+                "active",
+                filterButton.dataset.caseFilter ===
+                  "ALL"
+              );
+            }
+          );
 
         renderCaseQueue();
-      });
-    });
-
-  byId("focusCurrentCase").addEventListener(
-    "click",
-    () => {
-      selectCase("CR-2026-014");
-    }
-  );
-
-  byId("showAllCases").addEventListener(
-    "click",
-    () => {
-      activeCaseFilter = "ALL";
-
-      document
-        .querySelectorAll("[data-case-filter]")
-        .forEach((item) => {
-          item.classList.toggle(
-            "active",
-            item.dataset.caseFilter === "ALL"
-          );
-        });
-
-      renderCaseQueue();
-    }
-  );
-
-  byId("saveCaseDeskNote").addEventListener(
-    "click",
-    () => {
-      const notes = caseDeskNotes();
-
-      notes[selectedCaseId] =
-        byId("caseDeskNote").value.trim();
-
-      localStorage.setItem(
-        NOTE_STORAGE_KEY,
-        JSON.stringify(notes)
-      );
-
-      showToast(
-        `Desk note saved for ${selectedCaseId}.`
-      );
-    }
-  );
-
-  byId("resetWorkspace").addEventListener(
-    "click",
-    () => {
-      const approved = window.confirm(
-        "Reset report reviews, findings, and the draft brief for the primary fictional case?"
-      );
-
-      if (!approved) {
-        return;
       }
+    );
+  }
 
-      localStorage.removeItem(
-        PRIMARY_STORAGE_KEY
-      );
 
-      renderSelectedCase();
+  /* Save analyst case note */
 
-      showToast(
-        "Primary case workspace reset."
-      );
-    }
-  );
+  const saveNoteButton =
+    byId("saveCaseDeskNote");
 
+  if (saveNoteButton) {
+    saveNoteButton.addEventListener(
+      "click",
+      () => {
+        const notes =
+          caseDeskNotes();
+
+        notes[selectedCaseId] =
+          byId(
+            "caseDeskNote"
+          ).value.trim();
+
+        localStorage.setItem(
+          NOTE_STORAGE_KEY,
+          JSON.stringify(notes)
+        );
+
+        showToast(
+          `Desk note saved for ${selectedCaseId}.`
+        );
+      }
+    );
+  }
+
+
+  /* Reset primary case */
+
+  const resetButton =
+    byId("resetWorkspace");
+
+  if (resetButton) {
+    resetButton.addEventListener(
+      "click",
+      () => {
+        const approved =
+          window.confirm(
+            "Reset report reviews, findings, and the draft brief for the primary fictional case?"
+          );
+
+        if (!approved) {
+          return;
+        }
+
+        localStorage.removeItem(
+          PRIMARY_STORAGE_KEY
+        );
+
+        renderSelectedCase();
+
+        showToast(
+          "Primary case workspace reset."
+        );
+      }
+    );
+  }
+
+
+  /*
+   Initial page render.
+   This displays all three cases before
+   the user clicks a filter.
+  */
+
+  activeCaseFilter = "ALL";
   renderSelectedCase();
 }
+
+
+/* =====================================
+   START APPLICATION
+   ===================================== */
 
 initializeCaseDesk();
