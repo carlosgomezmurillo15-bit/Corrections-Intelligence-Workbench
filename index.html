@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Fictional corrections intelligence analysis training workbench.">
   <title>Case Desk | Corrections Intelligence Workbench</title>
+
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="case-desk.css">
 </head>
+
 <body data-page="overview">
   <aside class="sidebar" id="sidebar">
     <div class="agency-mark">
       <span class="seal">CI</span>
+
       <div>
         <strong>Corrections Intelligence</strong>
         <small>Analytical Workbench</small>
@@ -27,22 +30,34 @@
     <nav class="primary-nav" aria-label="Case workspace">
       <a class="nav-link" data-nav="overview" href="index.html">
         <span>01</span>
-        <div>Case Desk<small>Queue, tasking, and status</small></div>
+        <div>
+          Case Desk
+          <small>Queue, tasking, and status</small>
+        </div>
       </a>
 
       <a class="nav-link" data-nav="reports" href="reports.html">
         <span>02</span>
-        <div>Source Reporting<small>Evaluate collected records</small></div>
+        <div>
+          Source Reporting
+          <small>Evaluate collected records</small>
+        </div>
       </a>
 
       <a class="nav-link" data-nav="analysis" href="analysis.html">
         <span>03</span>
-        <div>Analytical Workspace<small>Links, timeline, hypotheses</small></div>
+        <div>
+          Analytical Workspace
+          <small>Links, timeline, hypotheses</small>
+        </div>
       </a>
 
       <a class="nav-link" data-nav="brief" href="brief.html">
         <span>04</span>
-        <div>Intelligence Brief<small>Judgments and gaps</small></div>
+        <div>
+          Intelligence Brief
+          <small>Judgments and gaps</small>
+        </div>
       </a>
     </nav>
 
@@ -59,12 +74,19 @@
       <small>Draft work is saved only in this browser</small>
     </div>
 
-    <div class="classification">UNCLASSIFIED // TRAINING</div>
+    <div class="classification">
+      UNCLASSIFIED // TRAINING
+    </div>
   </aside>
 
   <div class="app-shell">
     <header class="utility-bar">
-      <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation">
+      <button
+        class="menu-button"
+        id="menuButton"
+        type="button"
+        aria-label="Open navigation"
+      >
         Menu
       </button>
 
@@ -72,6 +94,7 @@
         <span class="breadcrumb" id="caseBreadcrumb">
           CASEWORK / CR-2026-014 / CASE DESK
         </span>
+
         <strong>Case Desk</strong>
       </div>
 
@@ -81,44 +104,50 @@
           Local training workspace
         </span>
 
-        <button class="text-button" id="resetWorkspace" type="button">
+        <button
+          class="text-button"
+          id="resetWorkspace"
+          type="button"
+        >
           Reset primary case
         </button>
       </div>
     </header>
 
     <main class="workspace desk-workspace">
-      <section class="command-ribbon" aria-label="Case commands">
-        <div class="ribbon-group ribbon-identity">
-          <span>WORKSPACE</span>
-          <strong>Corrections Intelligence Case Desk</strong>
+      <section class="desk-introduction">
+        <div>
+          <span>ANALYST WORKSPACE</span>
+          <h1>Assigned case desk</h1>
+
+          <p>
+            Select a case to review its current status,
+            intelligence requirement, and next actions.
+          </p>
         </div>
 
-        <div class="ribbon-group">
-          <span>CASE</span>
-          <button type="button" id="focusCurrentCase">Current case</button>
-          <button type="button" id="showAllCases">All cases</button>
-        </div>
+        <div class="desk-summary">
+          <span>
+            <strong>3</strong>
+            Assigned
+          </span>
 
-        <div class="ribbon-group">
-          <span>REVIEW</span>
-          <a href="reports.html">Source register</a>
-          <a href="analysis.html#timeline-section">Chronology</a>
-        </div>
+          <span>
+            <strong>2</strong>
+            Active
+          </span>
 
-        <div class="ribbon-group">
-          <span>ANALYZE</span>
-          <a href="analysis.html#network-section">Associations</a>
-          <a href="analysis.html#hypothesis-section">Hypotheses</a>
-        </div>
-
-        <div class="ribbon-group">
-          <span>PRODUCTS</span>
-          <a href="brief.html">Draft brief</a>
+          <span>
+            <strong>1</strong>
+            Pending
+          </span>
         </div>
       </section>
 
-      <section class="case-desk" aria-label="Case management workspace">
+      <section
+        class="case-desk"
+        aria-label="Case management workspace"
+      >
         <aside class="case-queue-panel">
           <header class="desk-panel-header">
             <div>
@@ -129,74 +158,161 @@
             <b id="queueCount">3</b>
           </header>
 
-          <div class="queue-filters" role="group" aria-label="Filter case queue">
-            <button class="active" type="button" data-case-filter="ALL">All</button>
-            <button type="button" data-case-filter="ACTIVE">Active</button>
-            <button type="button" data-case-filter="PENDING">Pending</button>
+          <div
+            class="queue-filters"
+            role="group"
+            aria-label="Filter case queue"
+          >
+            <button
+              class="active"
+              type="button"
+              data-case-filter="ALL"
+            >
+              All
+            </button>
+
+            <button
+              type="button"
+              data-case-filter="ACTIVE"
+            >
+              Active
+            </button>
+
+            <button
+              type="button"
+              data-case-filter="PENDING"
+            >
+              Pending
+            </button>
           </div>
 
-          <div class="case-queue-list" id="caseQueue"></div>
+          <div
+            class="case-queue-list"
+            id="caseQueue"
+          ></div>
 
           <div class="queue-legend">
-            <span><i class="priority-dot elevated"></i>Elevated</span>
-            <span><i class="priority-dot routine"></i>Routine</span>
-            <span><i class="priority-dot time"></i>Time sensitive</span>
+            <span>
+              <i class="priority-dot elevated"></i>
+              Elevated
+            </span>
+
+            <span>
+              <i class="priority-dot routine"></i>
+              Routine
+            </span>
+
+            <span>
+              <i class="priority-dot time"></i>
+              Time sensitive
+            </span>
           </div>
         </aside>
 
         <section class="case-workbench">
           <header class="workbench-header">
             <div>
-              <span id="selectedCaseId">CR-2026-014</span>
+              <span id="selectedCaseId">
+                CR-2026-014
+              </span>
+
               <h1 id="selectedCaseTitle">
                 Possible coordinated communication activity
               </h1>
             </div>
 
             <div class="workbench-status">
-              <span id="selectedCasePriority">ROUTINE</span>
-              <strong id="selectedCaseStatus">ACTIVE REVIEW</strong>
+              <span id="selectedCasePriority">
+                ROUTINE
+              </span>
+
+              <strong id="selectedCaseStatus">
+                ACTIVE REVIEW
+              </strong>
             </div>
           </header>
 
-          <nav class="record-tabs" aria-label="Selected case sections">
-            <button class="active" type="button">Summary</button>
-            <a id="caseReportsLink" href="reports.html">Reports</a>
-            <a id="caseEntitiesLink" href="analysis.html#entity-section">Entities</a>
-            <a id="caseTimelineLink" href="analysis.html#timeline-section">Timeline</a>
-            <a id="caseProductLink" href="brief.html">Products</a>
+          <nav
+            class="record-tabs"
+            aria-label="Selected case sections"
+          >
+            <button class="active" type="button">
+              Summary
+            </button>
+
+            <a
+              id="caseReportsLink"
+              href="reports.html"
+            >
+              Reports
+            </a>
+
+            <a
+              id="caseEntitiesLink"
+              href="analysis.html#entity-section"
+            >
+              Entities
+            </a>
+
+            <a
+              id="caseTimelineLink"
+              href="analysis.html#timeline-section"
+            >
+              Timeline
+            </a>
+
+            <a
+              id="caseProductLink"
+              href="brief.html"
+            >
+              Products
+            </a>
           </nav>
 
           <div class="record-sheet">
             <section class="record-block case-summary-block">
               <div class="record-block-title">
                 <span>CASE SUMMARY</span>
-                <small id="selectedCaseUpdated">Updated 19 Nov 2026</small>
+
+                <small id="selectedCaseUpdated">
+                  Updated 19 Nov 2026
+                </small>
               </div>
 
               <dl class="case-fields">
                 <div>
                   <dt>Lead analyst</dt>
-                  <dd id="selectedCaseAnalyst">C. Gomez</dd>
+                  <dd id="selectedCaseAnalyst">
+                    C. Gomez
+                  </dd>
                 </div>
 
                 <div>
                   <dt>Due date</dt>
-                  <dd id="selectedCaseDue">20 Nov 2026</dd>
+                  <dd id="selectedCaseDue">
+                    20 Nov 2026
+                  </dd>
                 </div>
 
                 <div>
                   <dt>Case type</dt>
-                  <dd id="selectedCaseType">Communication review</dd>
+                  <dd id="selectedCaseType">
+                    Communication review
+                  </dd>
                 </div>
 
                 <div>
                   <dt>Review stage</dt>
-                  <dd id="selectedCaseStage">Source evaluation</dd>
+                  <dd id="selectedCaseStage">
+                    Source evaluation
+                  </dd>
                 </div>
               </dl>
 
-              <p id="selectedCaseSummary" class="case-summary-text"></p>
+              <p
+                id="selectedCaseSummary"
+                class="case-summary-text"
+              ></p>
             </section>
 
             <section class="record-block">
@@ -205,36 +321,49 @@
                 <small>IR-01</small>
               </div>
 
-              <p class="requirement-text" id="selectedCaseRequirement"></p>
-              <ol class="kiq-list" id="selectedCaseQuestions"></ol>
+              <p
+                class="requirement-text"
+                id="selectedCaseRequirement"
+              ></p>
+
+              <ol
+                class="kiq-list"
+                id="selectedCaseQuestions"
+              ></ol>
             </section>
 
-            <section class="record-block">
-              <div class="record-block-title">
-                <span>CASE HOLDINGS</span>
-                <small>Current inventory</small>
-              </div>
+            <div class="case-detail-grid">
+              <section class="record-block">
+                <div class="record-block-title">
+                  <span>CASE HOLDINGS</span>
+                  <small>Current inventory</small>
+                </div>
 
-              <table class="holdings-table">
-                <thead>
-                  <tr>
-                    <th>Collection</th>
-                    <th>Count</th>
-                    <th>Review state</th>
-                  </tr>
-                </thead>
-                <tbody id="selectedCaseHoldings"></tbody>
-              </table>
-            </section>
+                <table class="holdings-table">
+                  <thead>
+                    <tr>
+                      <th>Collection</th>
+                      <th>Count</th>
+                      <th>Review state</th>
+                    </tr>
+                  </thead>
 
-            <section class="record-block">
-              <div class="record-block-title">
-                <span>RECENT CASE ACTIVITY</span>
-                <small>Most recent first</small>
-              </div>
+                  <tbody id="selectedCaseHoldings"></tbody>
+                </table>
+              </section>
 
-              <div class="activity-register" id="selectedCaseActivity"></div>
-            </section>
+              <section class="record-block">
+                <div class="record-block-title">
+                  <span>RECENT ACTIVITY</span>
+                  <small>Most recent first</small>
+                </div>
+
+                <div
+                  class="activity-register"
+                  id="selectedCaseActivity"
+                ></div>
+              </section>
+            </div>
           </div>
         </section>
 
@@ -247,7 +376,10 @@
           </header>
 
           <section class="inspector-section">
-            <span class="inspector-label">NEXT ACTION</span>
+            <span class="inspector-label">
+              NEXT ACTION
+            </span>
+
             <strong id="selectedCaseNextAction"></strong>
             <p id="selectedCaseNextDetail"></p>
           </section>
@@ -264,17 +396,31 @@
           </section>
 
           <section class="inspector-section">
-            <span class="inspector-label">OPEN TASKS</span>
-            <ul class="task-register" id="selectedCaseTasks"></ul>
+            <span class="inspector-label">
+              OPEN TASKS
+            </span>
+
+            <ul
+              class="task-register"
+              id="selectedCaseTasks"
+            ></ul>
           </section>
 
           <section class="inspector-section">
-            <span class="inspector-label">COLLECTION GAPS</span>
-            <ul class="gap-register" id="selectedCaseGaps"></ul>
+            <span class="inspector-label">
+              COLLECTION GAPS
+            </span>
+
+            <ul
+              class="gap-register"
+              id="selectedCaseGaps"
+            ></ul>
           </section>
 
           <section class="inspector-section analyst-note-section">
-            <label for="caseDeskNote">ANALYST DESK NOTE</label>
+            <label for="caseDeskNote">
+              ANALYST DESK NOTE
+            </label>
 
             <textarea
               id="caseDeskNote"
@@ -282,20 +428,30 @@
               placeholder="Record a short note for the selected case..."
             ></textarea>
 
-            <button class="secondary-button" id="saveCaseDeskNote" type="button">
+            <button
+              class="secondary-button"
+              id="saveCaseDeskNote"
+              type="button"
+            >
               Save case note
             </button>
           </section>
 
           <div class="training-caveat">
-            All cases and identifiers in this prototype are fictional training data.
+            All cases and identifiers in this prototype
+            are fictional training data.
           </div>
         </aside>
       </section>
     </main>
   </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
 
   <script src="case-desk.js"></script>
 </body>
